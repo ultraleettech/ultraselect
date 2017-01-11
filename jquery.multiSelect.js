@@ -101,7 +101,7 @@ if (jQuery) {
             if (o.optGroupSelectable) {
                 var optGroupSelected = true;
                 $(optGroup).next().find("INPUT:checkbox").each(function () {
-                    if (!$(this).attr("checked")) {
+                    if (!$(this).is(":checked")) {
                         optGroupSelected = false;
                         return false;
                     }
@@ -124,7 +124,7 @@ if (jQuery) {
             var selectAll = true;
             var display = "";
             multiSelectOptions.find("INPUT:checkbox").not(".selectAll, .optGroup").each(function () {
-                if ($(this).attr("checked")) {
+                if ($(this).is(":checked")) {
                     i += 1;
                     display = display + $(this).parent().text() + ", ";
                 } else {
@@ -249,9 +249,9 @@ if (jQuery) {
                 multiSelectOptions.find("INPUT.selectAll").click(function () {
                     // update all the child checkboxes
                     multiSelectOptions.find("INPUT:checkbox")
-                        .attr("checked", $(this).attr("checked"))
+                        .attr("checked", $(this).is(":checked"))
                         .parent("LABEL")
-                        .toggleClass("checked", $(this).attr("checked"));
+                        .toggleClass("checked", $(this).is(":checked"));
                 });
             }
 
@@ -264,16 +264,16 @@ if (jQuery) {
                     $(this).parent()
                         .next()
                         .find("INPUT:checkbox")
-                        .attr("checked", $(this).attr("checked"))
+                        .attr("checked", $(this).is(":checked"))
                         .parent("LABEL")
-                        .toggleClass("checked", $(this).attr("checked"));
+                        .toggleClass("checked", $(this).is(":checked"));
                 });
             }
 
             // Handle all checkboxes
             multiSelectOptions.find("INPUT:checkbox").click(function () {
                 // set the label checked class
-                $(this).parent("LABEL").toggleClass("checked", $(this).attr("checked"));
+                $(this).parent("LABEL").toggleClass("checked", $(this).is(":checked"));
 
                 updateSelected.call(multiSelect);
                 multiSelect.focus();
@@ -362,17 +362,17 @@ if (jQuery) {
                         var selectedCheckbox = multiSelectOptions.find("LABEL.hover INPUT:checkbox");
 
                         // Set the checkbox (and label class)
-                        selectedCheckbox.attr("checked", !selectedCheckbox.attr("checked"))
+                        selectedCheckbox.attr("checked", !selectedCheckbox.is(":checked"))
                             .parent("LABEL")
-                            .toggleClass("checked", selectedCheckbox.attr("checked"));
+                            .toggleClass("checked", selectedCheckbox.is(":checked"));
 
                         // if the checkbox was the select all then set all the checkboxes
                         if (selectedCheckbox.hasClass("selectAll")) {
                             multiSelectOptions.find("INPUT:checkbox")
-                                .attr("checked", selectedCheckbox.attr("checked"))
+                                .attr("checked", selectedCheckbox.is(":checked"))
                                 .parent("LABEL")
                                 .addClass("checked")
-                                .toggleClass("checked", selectedCheckbox.attr("checked"));
+                                .toggleClass("checked", selectedCheckbox.is(":checked"));
                         }
 
                         updateSelected.call(multiSelect);
