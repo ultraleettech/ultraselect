@@ -107,7 +107,10 @@ if (jQuery) {
                     }
                 });
 
-                $(optGroup).find("INPUT.optGroup").attr("checked", optGroupSelected).parent("LABEL").toggleClass("checked", optGroupSelected);
+                $(optGroup).find("INPUT.optGroup")
+                    .attr("checked", optGroupSelected)
+                    .parent("LABEL")
+                    .toggleClass("checked", optGroupSelected);
             }
         }
 
@@ -145,7 +148,10 @@ if (jQuery) {
 
             // Determine if Select All should be checked
             if (o.selectAll) {
-                multiSelectOptions.find("INPUT.selectAll").attr("checked", selectAll).parent("LABEL").toggleClass("checked", selectAll);
+                multiSelectOptions.find("INPUT.selectAll")
+                    .attr("checked", selectAll)
+                    .parent("LABEL")
+                    .toggleClass("checked", selectAll);
             }
         }
 
@@ -255,7 +261,12 @@ if (jQuery) {
 
                 multiSelectOptions.find("INPUT.optGroup").click(function () {
                     // update all the child checkboxes
-                    $(this).parent().next().find("INPUT:checkbox").attr("checked", $(this).attr("checked")).parent("LABEL").toggleClass("checked", $(this).attr("checked"));
+                    $(this).parent()
+                        .next()
+                        .find("INPUT:checkbox")
+                        .attr("checked", $(this).attr("checked"))
+                        .parent("LABEL")
+                        .toggleClass("checked", $(this).attr("checked"));
                 });
             }
 
@@ -351,11 +362,17 @@ if (jQuery) {
                         var selectedCheckbox = multiSelectOptions.find("LABEL.hover INPUT:checkbox");
 
                         // Set the checkbox (and label class)
-                        selectedCheckbox.attr("checked", !selectedCheckbox.attr("checked")).parent("LABEL").toggleClass("checked", selectedCheckbox.attr("checked"));
+                        selectedCheckbox.attr("checked", !selectedCheckbox.attr("checked"))
+                            .parent("LABEL")
+                            .toggleClass("checked", selectedCheckbox.attr("checked"));
 
                         // if the checkbox was the select all then set all the checkboxes
                         if (selectedCheckbox.hasClass("selectAll")) {
-                            multiSelectOptions.find("INPUT:checkbox").attr("checked", selectedCheckbox.attr("checked")).parent("LABEL").addClass("checked").toggleClass("checked", selectedCheckbox.attr("checked"));
+                            multiSelectOptions.find("INPUT:checkbox")
+                                .attr("checked", selectedCheckbox.attr("checked"))
+                                .parent("LABEL")
+                                .addClass("checked")
+                                .toggleClass("checked", selectedCheckbox.attr("checked"));
                         }
 
                         updateSelected.call(multiSelect);
@@ -380,9 +397,9 @@ if (jQuery) {
                         });
 
                         // if there were no item after the current hovered item then try using the full search results (filtered to the first one)
-                        match = (afterHoverMatch.length >= 1
+                        match = (afterHoverMatch.length >= 1)
                             ? afterHoverMatch
-                            : match);
+                            : match;
                         match = match.filter("LABEL:first");
 
                         if (match.length === 1) {
