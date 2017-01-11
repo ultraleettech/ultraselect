@@ -1,7 +1,7 @@
 /*
 // jQuery multiSelect
 //
-// Version 1.2.2 beta
+// Version 1.2.3 beta
 //
 // Cory S.N. LaViska
 // A Beautiful Site (http://abeautifulsite.net/)
@@ -10,6 +10,7 @@
 // Visit http://abeautifulsite.net/notebook/62 for more information
 //
 // (Amended by Andy Richmond, Letters & Science Deans' Office, University of California, Davis)
+// (Additionally, amended by Rene Aavik, Ultraleet Technologies)
 //
 // Usage: $("#control_id").multiSelect(options, callback)
 //
@@ -26,38 +27,42 @@
 //
 // Change Log:
 //
-//        1.0.1    - Updated to work with jQuery 1.2.6+ (no longer requires the dimensions plugin)
-//                - Changed $(this).offset() to $(this).position(), per James" and Jono"s suggestions
+//        1.0.1 - Updated to work with jQuery 1.2.6+ (no longer requires the dimensions plugin)
+//              - Changed $(this).offset() to $(this).position(), per James" and Jono"s suggestions
 //
-//        1.0.2    - Fixed issue where dropdown doesn"t scroll up/down with keyboard shortcuts
-//                - Changed "$" in setTimeout to use "jQuery" to support jQuery.noConflict
-//                - Renamed from jqueryMultiSelect.* to jquery.multiSelect.* per the standard recommended at
-//                  http://docs.jquery.com/Plugins/Authoring (does not affect API methods)
+//        1.0.2 - Fixed issue where dropdown doesn"t scroll up/down with keyboard shortcuts
+//              - Changed "$" in setTimeout to use "jQuery" to support jQuery.noConflict
+//              - Renamed from jqueryMultiSelect.* to jquery.multiSelect.* per the standard recommended at
+//                http://docs.jquery.com/Plugins/Authoring (does not affect API methods)
 //
-//        1.0.3    - Now uses the bgiframe plugin (if it exists) to fix the IE6 layering bug.
+//        1.0.3 - Now uses the bgiframe plugin (if it exists) to fix the IE6 layering bug.
 //              - Forces IE6 to use a min-height of 200px (this needs to be added to the options)
 //
-//        1.1.0    - Added the ability to update the options dynamically via javascript: multiSelectOptionsUpdate(JSON)
+//        1.1.0 - Added the ability to update the options dynamically via javascript: multiSelectOptionsUpdate(JSON)
 //              - Added a title that displays the whole comma delimited list when using oneOrMoreSelected = *
 //              - Moved some of the functions to be closured to make them private
 //              - Changed the way the keyboard navigation worked to more closely match how a standard dropdown works
 //              - ** by Andy Richmond **
 //
-//        1.2.0    - Added support for optgroups
+//        1.2.0 - Added support for optgroups
 //              - Added the ability for selectable optgroups (i.e. select all for an optgroup)
 //              - ** by Andy Richmond **
 //
-//        1.2.1    - Fixed bug where input text overlapped dropdown arrow in IE (i.e. when using oneOrMoreSelected = *)
+//        1.2.1 - Fixed bug where input text overlapped dropdown arrow in IE (i.e. when using oneOrMoreSelected = *)
 //              - Added option "listHeight" for min-height of the dropdown
 //              - Fixed bug where bgiframe was causing a horizontal scrollbar and on short lists extra whitespace below the options
 //              - ** by Andy Richmond **
 //
-//        1.2.2    - Fixed bug where the keypress stopped showing the dropdown because in jQuery 1.3.2 they changed the way ":visible" works
+//        1.2.2 - Fixed bug where the keypress stopped showing the dropdown because in jQuery 1.3.2 they changed the way ":visible" works
 //              - Fixed some other bugs in the way the keyboard interface worked
 //              - Changed the main textbox to an <a> tag (with "display: inline-block") to prevent the display text from being selected/highlighted
 //              - Added the ability to jump to an option by typing the first character of that option (simular to a normal drop down)
 //              - ** by Andy Richmond **
-//                - Added [] to make each control submit an HTML array so $.serialize() works properly
+//              - Added [] to make each control submit an HTML array so $.serialize() works properly
+//
+//        1.2.3 - Fixed bug where deselecting "select all" would not work as expected
+//              - Fixed bug where deselecting options with a click would not work as expected when "select all" was checked
+//              - ** by Rene Aavik **
 //
 // Licensing & Terms of Use
 //
