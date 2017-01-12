@@ -206,9 +206,9 @@ if (jQuery) {
 
                     container = $("<div class=\"optGroupContainer\" />");
                     container.append(createOptions(id, options[i].options, o));
-                    el.append(container);
 
                     $options.append(el);
+                    $options.append(container);
                 } else {
                     $options.append(createOption(id, options[i]));
                 }
