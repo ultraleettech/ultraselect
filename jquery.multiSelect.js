@@ -180,7 +180,7 @@ if (jQuery) {
 
             return $option.append(input)
                 .append(option.text)
-                .attr("class", option.classes ? option.classes : null)
+                .attr("class", option.classes || null)
                 .data(option.data);
         }
 
@@ -195,7 +195,7 @@ if (jQuery) {
                 if (options[i].optgroup) {
                     el = $("<label class=\"optGroup\" />");
 
-                    el.attr("class", options[i].classes ? options[i].classes : null)
+                    el.attr("class", options[i].classes || null)
                         .data(options[i].data);
 
                     if (o.optGroupSelectable) {
