@@ -64,6 +64,10 @@
 //              - Fixed bug where deselecting options with a click would not work as expected when "select all" was checked
 //              - ** by Rene Aavik **
 //
+//        1.2.4 - Refactored option generation slightly to use jQuery functions instead of raw HTML in order to make manipulation of elements more painless
+//              - Added transfer of classes and data attributes from the original <select> and <option> elements
+//              - ** by Rene Aavik **
+//
 // Licensing & Terms of Use
 //
 // This plugin is dual-licensed under the GNU General Public License and the MIT License and
@@ -160,43 +164,57 @@ if (jQuery) {
             }
         }
 
-        // render the html for a single option
-        function renderOption(id, option) {
-            var html = "<label><input type=\"checkbox\" name=\"" + id + "[]\" value=\"" + option.value + "\"";
-            if (option.selected) {
-                html += " checked=\"checked\"";
-            }
-            html += " />" + option.text + "</label>";
+        // generate the single option element
+        function createOption(id, option) {
+            var $option = $("<label />");
+            var input = $("<input />");
 
-            return html;
+            input.attr({
+                type: "checkbox",
+                name: id + "[]"
+            }).val(option.value);
+
+            if (option.selected) {
+                input.prop("checked", "checked");
+            }
+
+            return $option.append(input)
+                .append(option.text)
+                .attr("class", option.classes ? option.classes : null)
+                .data(option.data);
         }
 
-        // render the html for the options/optgroups
-        function renderOptions(id, options, o) {
-            var html = "";
+        // generate the options/optgroups
+        function createOptions(id, options, o) {
             var i;
+            var el;
+            var container;
+            var $options = $("<div />");
 
             for (i = 0; i < options.length; i += 1) {
                 if (options[i].optgroup) {
-                    html += "<label class=\"optGroup\">";
+                    el = $("<label class=\"optGroup\" />");
+
+                    el.attr("class", options[i].classes ? options[i].classes : null)
+                        .data(options[i].data);
 
                     if (o.optGroupSelectable) {
-                        html += "<input type=\"checkbox\" class=\"optGroup\" />" + options[i].optgroup;
-                    } else {
-                        html += options[i].optgroup;
+                        el.append("<input type=\"checkbox\" class=\"optGroup\" />");
                     }
 
-                    html += "</label><div class=\"optGroupContainer\">";
+                    el.append(" " + options[i].optgroup);
 
-                    html += renderOptions(id, options[i].options, o);
+                    container = $("<div class=\"optGroupContainer\" />");
+                    container.append(createOptions(id, options[i].options, o));
+                    el.append(container);
 
-                    html += "</div>";
+                    $options.append(el);
                 } else {
-                    html += renderOption(id, options[i]);
+                    $options.append(createOption(id, options[i]));
                 }
             }
 
-            return html;
+            return $options.children();
         }
 
         // Building the actual options
@@ -208,17 +226,14 @@ if (jQuery) {
 
             // clear the existing options
             multiSelectOptions.html("");
-            var html = "";
 
             // if we should have a select all option then add it
             if (o.selectAll) {
-                html += "<label class=\"selectAll\"><input type=\"checkbox\" class=\"selectAll\" />" + o.selectAllText + "</label>";
+                multiSelectOptions.append("<label class=\"selectAll\"><input type=\"checkbox\" class=\"selectAll\" />" + o.selectAllText + "</label>");
             }
 
-            // generate the html for the new options
-            html += renderOptions(multiSelect.attr("id"), options, o);
-
-            multiSelectOptions.html(html);
+            // generate the elements for the new options
+            multiSelectOptions.append(createOptions(multiSelect.attr("id"), options, o));
 
             // variables needed to account for width changes due to a scrollbar
             var initialWidth = multiSelectOptions.width();
@@ -452,12 +467,16 @@ if (jQuery) {
                 // Initialize each multiSelect
                 $(this).each(function () {
                     var select = $(this);
-                    var html = "<a href=\"javascript:;\" class=\"multiSelect\"><span></span></a>";
+                    var html = "<a href=\"#\" class=\"multiSelect\"><span></span></a>";
                     html += "<div class=\"multiSelectOptions\" style=\"position: absolute; z-index: 99999; visibility: hidden;\"></div>";
                     $(select).after(html);
 
                     var multiSelect = $(select).next(".multiSelect");
                     // var multiSelectOptions = multiSelect.next(".multiSelectOptions"); // flagged as unused by jslint
+
+                    // transfer classes and data attributes from the original select element
+                    multiSelect.attr("class", select.attr("class"));
+                    multiSelect.addClass("multiSelect").data(select.data());
 
                     // if the select object had a width defined then match the new multilsect to it
                     multiSelect.find("span").css("width", $(select).width() + "px");
@@ -473,16 +492,33 @@ if (jQuery) {
                     $(select).children().each(function () {
                         if (this.tagName.toUpperCase() === "OPTGROUP") {
                             var suboptions = [];
-                            options.push({optgroup: $(this).attr("label"), options: suboptions});
+                            options.push({
+                                optgroup: $(this).attr("label"),
+                                options: suboptions,
+                                classes: $(this).attr("class"),
+                                data: $(this).data() || {}
+                            });
 
                             $(this).children("OPTION").each(function () {
                                 if ($(this).val() !== "") {
-                                    suboptions.push({text: $(this).html(), value: $(this).val(), selected: $(this).attr("selected")});
+                                    suboptions.push({
+                                        text: $(this).html(),
+                                        value: $(this).val(),
+                                        selected: $(this).attr("selected"),
+                                        classes: $(this).attr("class"),
+                                        data: $(this).data() || {}
+                                    });
                                 }
                             });
                         } else if (this.tagName.toUpperCase() === "OPTION") {
                             if ($(this).val() !== "") {
-                                options.push({text: $(this).html(), value: $(this).val(), selected: $(this).attr("selected")});
+                                options.push({
+                                    text: $(this).html(),
+                                    value: $(this).val(),
+                                    selected: $(this).attr("selected"),
+                                    classes: $(this).attr("class"),
+                                    data: $(this).data() || {}
+                                });
                             }
                         }
                     });
