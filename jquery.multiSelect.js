@@ -1,7 +1,7 @@
 /*
 // jQuery multiSelect
 //
-// Version 1.2.3 beta
+// Version 1.2.4
 //
 // Cory S.N. LaViska
 // A Beautiful Site (http://abeautifulsite.net/)
@@ -66,6 +66,7 @@
 //
 //        1.2.4 - Refactored option generation slightly to use jQuery functions instead of raw HTML in order to make manipulation of elements more painless
 //              - Added transfer of classes and data attributes from the original <select> and <option> elements
+//              - Fixed bug where selectable optgroup would not be initially checked when all member options were selected
 //              - ** by Rene Aavik **
 //
 // Licensing & Terms of Use
