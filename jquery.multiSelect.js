@@ -315,7 +315,7 @@ if (jQuery) {
 
             // Initialize optgroups
             if (o.optGroupSelectable) {
-                multiSelectOptions.find("LABEL.optGroup").each(function () {
+                multiSelectOptions.find("LABEL > .optGroup").parent().each(function () {
                     updateOptGroup.call(multiSelect, $(this));
                 });
             }

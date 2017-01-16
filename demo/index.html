@@ -29,6 +29,9 @@
                 // 'Select All' text changed
                 $("#control_8").multiSelect({ selectAllText: 'Pick &lsquo;em all!' });
 
+                // Selectable option groups
+                $("#control_10").multiSelect({ selectAll: false, optGroupSelectable: true});
+
                 // Test data attributes transfer
                 $("#dataTest").append(
                     $(".select-class").data("test") + " " +
@@ -226,6 +229,32 @@
                     <optgroup label="Optgroup 1" class="optgroup-class" data-test="testOptgroup">
                         <option value="option_1" class="option-class" data-test="testOption">Option 1</option>
                         <option value="option_2">Option 2</option>
+                    </optgroup>
+                    <optgroup label="Optgroup 2">
+                        <option value="option_3">Option 3</option>
+                        <option value="option_4">Option 4</option>
+                        <option value="option_5">Option 5</option>
+                        <option value="option_6">Option 6</option>
+                        <option value="option_7">Option 7</option>
+                        <option value="option_8">Option 8</option>
+                    </optgroup>
+
+                    <optgroup label="Optgroup 3">
+                        <option value="option_9">Option 9</option>
+                        <option value="option_10">Option 10</option>
+                        <option value="option_11">Option 11</option>
+                        <option value="option_12">Option 12</option>
+                    </optgroup>
+                </select>
+                Data: <span id="dataTest"></span><br />
+            </p>
+
+            <h2>Control 10: Selectable option groups</h2>
+            <p>
+                <select id="control_10" name="control_10[]" multiple="multiple" size="5">
+                    <optgroup label="Optgroup 1">
+                        <option value="option_1" selected>Option 1</option>
+                        <option value="option_2" selected>Option 2</option>
                     </optgroup>
                     <optgroup label="Optgroup 2">
                         <option value="option_3">Option 3</option>
