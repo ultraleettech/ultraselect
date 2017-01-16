@@ -91,6 +91,17 @@ if (jQuery) {
     (function ($) {
         "use strict";
 
+        // Add polyfill for String.trim() function if not supported
+        if (!String.prototype.trim) {
+            (function () {
+                // Make sure we trim BOM and NBSP
+                var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                String.prototype.trim = function () {
+                    return this.replace(rtrim, "");
+                };
+            }());
+        }
+
         // Determines if the passed element is overflowing its bounds,
         // either vertically or horizontally.
         // Will temporarily modify the "overflow" style to detect this
@@ -159,7 +170,7 @@ if (jQuery) {
             multiSelectOptions.find("INPUT:checkbox").not(".selectAll, .optGroup").each(function () {
                 if ($(this).is(":checked")) {
                     i += 1;
-                    display = display + $(this).parent().text() + ", ";
+                    display = display + $(this).parent().text().trim() + ", ";
                 } else {
                     selectAll = false;
                 }
