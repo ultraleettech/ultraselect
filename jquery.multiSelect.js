@@ -71,6 +71,7 @@
 //              - ** by Rene Aavik **
 //
 //        1.3.0 - Added option 'autoListSelected'
+//              - Removed extra whitespaces in the comma-separated display string
 //              - ** by Rene Aavik **
 //
 // Licensing & Terms of Use
@@ -113,8 +114,7 @@ if (jQuery) {
                 el.style.overflow = "hidden";
             }
 
-            var isOverflowing = el.clientWidth < el.scrollWidth
-                    || el.clientHeight < el.scrollHeight;
+            var isOverflowing = el.clientWidth < el.scrollWidth;
 
             el.style.overflow = curOverflow;
 
