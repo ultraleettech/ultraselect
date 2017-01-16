@@ -1,7 +1,7 @@
 /*
 // jQuery multiSelect
 //
-// Version 1.2.4
+// Version 1.3.0 beta
 //
 // Cory S.N. LaViska
 // A Beautiful Site (http://abeautifulsite.net/)
@@ -20,6 +20,7 @@
 //           oneOrMoreSelected  - text to display when there are one or more selected items in the list
 //                                (note: you can use % as a placeholder for the number of items selected).
 //                                Use * to show a comma separated list of all selected; default = "% selected"
+//           autoListSelected   - show comma selected list if it fits the element, oneOrMoreSelected value otherwise
 //           optGroupSelectable - whether or not optgroups are selectable if you use them; true/false, default = false
 //           listHeight         - the max height of the droptdown options
 //
@@ -69,6 +70,9 @@
 //              - Fixed bug where selectable optgroup would not be initially checked when all member options were selected
 //              - ** by Rene Aavik **
 //
+//        1.3.0 - Added option 'autoListSelected'
+//              - ** by Rene Aavik **
+//
 // Licensing & Terms of Use
 //
 // This plugin is dual-licensed under the GNU General Public License and the MIT License and
@@ -86,6 +90,25 @@ if (jQuery) {
 
     (function ($) {
         "use strict";
+
+        // Determines if the passed element is overflowing its bounds,
+        // either vertically or horizontally.
+        // Will temporarily modify the "overflow" style to detect this
+        // if necessary.
+        function checkOverflow(el) {
+            var curOverflow = el.style.overflow;
+
+            if (!curOverflow || curOverflow === "visible") {
+                el.style.overflow = "hidden";
+            }
+
+            var isOverflowing = el.clientWidth < el.scrollWidth
+                    || el.clientHeight < el.scrollHeight;
+
+            el.style.overflow = curOverflow;
+
+            return isOverflowing;
+        }
 
         // Adjust the viewport if necessary
         function adjustViewPort(multiSelectOptions) {
@@ -148,9 +171,14 @@ if (jQuery) {
             if (i === 0) {
                 multiSelect.find("span").html(o.noneSelected);
             } else {
-                if (o.oneOrMoreSelected === "*") {
+                if (o.oneOrMoreSelected === "*" || o.autoListSelected) {
                     multiSelect.find("span").html(display);
                     multiSelect.attr("title", display);
+                    if (o.autoListSelected) {
+                        if (checkOverflow(multiSelect.find("span")[0])) {
+                            multiSelect.find("span").html(o.oneOrMoreSelected.replace("%", i));
+                        }
+                    }
                 } else {
                     multiSelect.find("span").html(o.oneOrMoreSelected.replace("%", i));
                 }
@@ -461,6 +489,7 @@ if (jQuery) {
                     selectAllText: "Select All",
                     noneSelected: "Select options",
                     oneOrMoreSelected: "% selected",
+                    autoListSelected: false,
                     optGroupSelectable: false,
                     listHeight: 150
                 }, o);

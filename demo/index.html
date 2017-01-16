@@ -32,6 +32,9 @@
                 // Selectable option groups
                 $("#control_10").multiSelect({ selectAll: false, optGroupSelectable: true});
 
+                // Options displayed in comma-separated list only if they fit
+                $("#control_11").multiSelect({ autoListSelected: true });
+
                 // Test data attributes transfer
                 $("#dataTest").append(
                     $(".select-class").data("test") + " " +
@@ -272,7 +275,22 @@
                         <option value="option_12">Option 12</option>
                     </optgroup>
                 </select>
-                Data: <span id="dataTest"></span><br />
+            </p>
+
+            <h2>Control 11: Options displayed in comma-separated list only if it fits</h2>
+            <p>
+                <select id="control_11" name="control_11[]" multiple="multiple" size="5">
+                    <option value=""></option>
+                    <option value="option_1">Option 1</option>
+                    <option value="option_2">Option 2</option>
+
+                    <option value="option_3">Option 3</option>
+                    <option value="option_4">Option 4</option>
+                    <option value="option_5">Option 5</option>
+                    <option value="option_6">Option 6</option>
+                    <option value="option_7">Option 7</option>
+                </select>
+
             </p>
 
             <p>
