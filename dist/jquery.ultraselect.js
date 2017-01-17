@@ -493,7 +493,7 @@ if (jQuery) {
         }
 
         $.extend($.fn, {
-            multiSelect: function (o, callback) {
+            ultraselect: function (o, callback) {
                 // Merge defaults with options
                 o = $.extend({}, {
                     selectAll: true,
