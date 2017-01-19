@@ -90,7 +90,7 @@ if (jQuery) {
                 });
 
                 $(optGroup).find("INPUT.optGroup")
-                    .attr("checked", optGroupSelected)
+                    .prop("checked", optGroupSelected)
                     .parent("LABEL")
                     .toggleClass("checked", optGroupSelected);
             }
@@ -136,7 +136,7 @@ if (jQuery) {
             // Determine if Select All should be checked
             if (o.selectAll) {
                 multiSelectOptions.find("INPUT.selectAll")
-                    .attr("checked", selectAll)
+                    .prop("checked", selectAll)
                     .parent("LABEL")
                     .toggleClass("checked", selectAll);
             }
@@ -247,7 +247,7 @@ if (jQuery) {
                 multiSelectOptions.find("INPUT.selectAll").click(function () {
                     // update all the child checkboxes
                     multiSelectOptions.find("INPUT:checkbox")
-                        .attr("checked", $(this).is(":checked"))
+                        .prop("checked", $(this).is(":checked"))
                         .parent("LABEL")
                         .toggleClass("checked", $(this).is(":checked"));
                 });
@@ -262,7 +262,7 @@ if (jQuery) {
                     $(this).parent()
                         .next()
                         .find("INPUT:checkbox")
-                        .attr("checked", $(this).is(":checked"))
+                        .prop("checked", $(this).is(":checked"))
                         .parent("LABEL")
                         .toggleClass("checked", $(this).is(":checked"));
                 });
@@ -360,14 +360,14 @@ if (jQuery) {
                         var selectedCheckbox = multiSelectOptions.find("LABEL.hover INPUT:checkbox");
 
                         // Set the checkbox (and label class)
-                        selectedCheckbox.attr("checked", !selectedCheckbox.is(":checked"))
+                        selectedCheckbox.prop("checked", !selectedCheckbox.is(":checked"))
                             .parent("LABEL")
                             .toggleClass("checked", selectedCheckbox.is(":checked"));
 
                         // if the checkbox was the select all then set all the checkboxes
                         if (selectedCheckbox.hasClass("selectAll")) {
                             multiSelectOptions.find("INPUT:checkbox")
-                                .attr("checked", selectedCheckbox.is(":checked"))
+                                .prop("checked", selectedCheckbox.is(":checked"))
                                 .parent("LABEL")
                                 .addClass("checked")
                                 .toggleClass("checked", selectedCheckbox.is(":checked"));
@@ -483,7 +483,7 @@ if (jQuery) {
                                     suboptions.push({
                                         text: $(this).html(),
                                         value: $(this).val(),
-                                        selected: $(this).attr("selected"),
+                                        selected: $(this).prop("selected"),
                                         classes: $(this).attr("class"),
                                         data: $(this).data() || {}
                                     });
@@ -494,7 +494,7 @@ if (jQuery) {
                                 options.push({
                                     text: $(this).html(),
                                     value: $(this).val(),
-                                    selected: $(this).attr("selected"),
+                                    selected: $(this).prop("selected"),
                                     classes: $(this).attr("class"),
                                     data: $(this).data() || {}
                                 });
