@@ -5,7 +5,7 @@
 
 ## [1.2.4]
 - Refactored option generation slightly to use jQuery functions instead of raw HTML in order to make manipulation of elements more painless
-- Added transfer of classes and data attributes from the original <select> and <option> elements
+- Added transfer of classes and data attributes from the original `<select>` and `<option>` elements
 - Fixed bug where selectable optgroup would not be initially checked when all member options were selected
 - _by Rene Aavik_
 
@@ -18,7 +18,7 @@
 - Fixed bug where the keypress stopped showing the dropdown because in jQuery ## [1.3.2]
 they changed the way ":visible" works
 - Fixed some other bugs in the way the keyboard interface worked
-- Changed the main textbox to an <a> tag (with "display: inline-block") to prevent the display text from being selected/highlighted
+- Changed the main textbox to an `<a>` tag (with "display: inline-block") to prevent the display text from being selected/highlighted
 - Added the ability to jump to an option by typing the first character of that option (simular to a normal drop down)
 - _by Andy Richmond_
 - Added [] to make each control submit an HTML array so $.serialize() works properly
