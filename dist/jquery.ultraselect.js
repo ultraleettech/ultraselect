@@ -1,7 +1,7 @@
 /*
 // jQuery ultraselect plugin
 //
-// Version 1.3.0-rc2
+// Version 1.3.0
 //
 // Cory S.N. LaViska
 // A Beautiful Site (http://abeautifulsite.net/)
