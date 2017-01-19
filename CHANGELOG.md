@@ -1,3 +1,6 @@
+## [1.3.1]
+- Fixed jQuery compatibility issues
+
 ## [1.3.0]
 - Added option 'autoListSelected'
 - Removed extra whitespaces in the comma-separated display string
