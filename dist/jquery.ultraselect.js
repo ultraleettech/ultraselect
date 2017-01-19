@@ -1,7 +1,7 @@
 /*
-// jQuery multiSelect
+// jQuery ultraselect plugin
 //
-// Version 1.3.0
+// Version 1.3.0-rc2
 //
 // Cory S.N. LaViska
 // A Beautiful Site (http://abeautifulsite.net/)
@@ -10,7 +10,7 @@
 // (Amended by Andy Richmond, Letters & Science Deans' Office, University of California, Davis)
 // (Additionally, amended by Rene Aavik, Ultraleet Technologies)
 //
-// Dependencies:  jQuery 1.2.6 or higher (http://jquery.com/)
+// See README.md for installation and usage instructions
 //
 // Licensing & Terms of Use
 //
