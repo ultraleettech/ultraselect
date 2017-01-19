@@ -4,7 +4,7 @@ This component was born as a fork of a jQuery plugin called **jQuery multiSelect
 
 ## Demo
 
-Either download and extract, or clone the repository. Then navigate your browser to the `demo/index.html` file to open the demo page.
+Either download and extract, or clone the repository. Then open the `demo/index.html` file in your web browser.
 
 
 ## Installation
@@ -36,7 +36,7 @@ Note, that loading the jQuery library before the plugin is required. The inclusi
 
 ### Markup
 
-The component needs to created as a regulat `<select>` element as follows:
+The component needs to created as a regular `<select>` element as follows:
 
 ```html
 <select class="ultraSelect" id="mySelect1" name="myOptions1[]" multiple="multiple" size="5">

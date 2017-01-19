@@ -7,12 +7,9 @@
 // A Beautiful Site (http://abeautifulsite.net/)
 // 09 September 2009
 //
-// Visit http://abeautifulsite.net/notebook/62 for more information
-//
 // (Amended by Andy Richmond, Letters & Science Deans' Office, University of California, Davis)
 // (Additionally, amended by Rene Aavik, Ultraleet Technologies)
 //
-/
 // Dependencies:  jQuery 1.2.6 or higher (http://jquery.com/)
 //
 // Licensing & Terms of Use
