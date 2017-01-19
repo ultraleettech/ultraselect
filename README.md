@@ -29,9 +29,10 @@ Add the following to the `<head>` section of any page you want to use the plugin
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 <script src="path/to/ultraselect/jquery.bgiframe.min.js" type="text/javascript"></script>
 <script src="path/to/ultraselect/jquery.ultraselect.js" type="text/javascript"></script>
+<link href="path/to/ultraselect/jquery.ultraselect.css" rel="stylesheet" type="text/css" />
 ```
 
-Note, that loading the jQuery library before the plugin is required. The inclusion of **bgiframe** is optional and needed only if you wist to support Internet Explorer 6.
+Note, that loading the jQuery library before the plugin is required. The inclusion of **bgiframe** is optional and needed only if you wish to support Internet Explorer 6.
 
 ### Markup
 
@@ -94,7 +95,7 @@ To initialize different components with different options, select them individua
 ```javascript
 $(document).ready( function() {
     // Options displayed in a comma-separated list and "select all" text changed
-    $("#mySelect1").ultraselect({oneOrMoreSelected: "*", selectAllText: "Pick &lsquo;em all!""});
+    $("#mySelect1").ultraselect({oneOrMoreSelected: "*", selectAllText: "Pick &lsquo;em all!"});
 
     // Options displayed in a comma-separated list as long as they fit
     $("#mySelect2").ultraselect({autoListSelected: true});
@@ -109,15 +110,15 @@ You can also pass an optional callback function as a second argument to the init
 #### Available options:
 
 ```javascript
-// Options:  selectAll          - whether or not to display the Select All option; true/false, default = true
-//           selectAllText      - text to display for selecting/unselecting all options simultaneously
-//           noneSelected       - text to display when there are no selected items in the list
-//           oneOrMoreSelected  - text to display when there are one or more selected items in the list
-//                                (note: you can use % as a placeholder for the number of items selected).
-//                                Use * to show a comma separated list of all selected; default = "% selected"
-//           autoListSelected   - show comma selected list if it fits the element, oneOrMoreSelected value otherwise
-//           optGroupSelectable - whether or not optgroups are selectable if you use them; true/false, default = false
-//           listHeight         - the max height of the droptdown options
+// selectAll          - whether or not to display the Select All option; true/false, default = true
+// selectAllText      - text to display for selecting/unselecting all options simultaneously
+// noneSelected       - text to display when there are no selected items in the list
+// oneOrMoreSelected  - text to display when there are one or more selected items in the list
+//                      (note: you can use % as a placeholder for the number of items selected).
+//                      Use * to show a comma separated list of all selected; default = "% selected"
+// autoListSelected   - show comma selected list if it fits the element, oneOrMoreSelected value otherwise
+// optGroupSelectable - whether or not optgroups are selectable if you use them; true/false, default = false
+// listHeight         - the max height of the droptdown options
 ```
 
 
