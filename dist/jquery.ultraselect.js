@@ -535,7 +535,7 @@ if (jQuery) {
                     // Add an event listener to the window to close the multiselect if the user clicks off
                     $(document).click(function (event) {
                         // If somewhere outside of the multiselect was clicked then hide the multiselect
-                        if (!($(event.target).parents().andSelf().is(".multiSelectOptions"))) {
+                        if (!($(event.target).parents().addBack().is(".multiSelectOptions"))) {
                             multiSelect.multiSelectOptionsHide();
                         }
                     });

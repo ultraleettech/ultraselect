@@ -26,13 +26,13 @@ Go to the [releases page](https://github.com/ultraleettech/ultraselect/releases)
 Add the following to the `<head>` section of any page you want to use the plugin on:
 
 ```html
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
 <script src="path/to/ultraselect/jquery.bgiframe.min.js" type="text/javascript"></script>
 <script src="path/to/ultraselect/jquery.ultraselect.js" type="text/javascript"></script>
 <link href="path/to/ultraselect/jquery.ultraselect.css" rel="stylesheet" type="text/css" />
 ```
 
-Note, that loading the jQuery library before the plugin is required. Ultraselect requires jQuery 1.6.0+ and is compatible up to jQuery 1.12.4.
+Note, that loading the jQuery library before the plugin is required. Ultraselect requires jQuery 1.8.0+ and is compatible with up to at least jQuery 3.1.1.
 
 The inclusion of **bgiframe** is optional and needed only if you wish to support Internet Explorer 6.
 
