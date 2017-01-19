@@ -36,7 +36,7 @@ Note, that loading the jQuery library before the plugin is required. The inclusi
 
 ### Markup
 
-The component needs to created as a regular `<select>` element as follows:
+The component needs to be created as a regular `<select>` element as follows:
 
 ```html
 <select class="ultraSelect" id="mySelect1" name="myOptions1[]" multiple="multiple" size="5">
@@ -85,7 +85,7 @@ Pre-select any number of options you need:
 Add the following to your page's JavaScript code to initialize the ultraselect components with default options:
 
 ```javascript
-$(document).ready( function() {
+$(document).ready(function () {
     $(".ultraSelect").ultraselect();
 });
 ```
@@ -93,7 +93,7 @@ $(document).ready( function() {
 To initialize different components with different options, select them individually and pass the options as an object:
 
 ```javascript
-$(document).ready( function() {
+$(document).ready(function () {
     // Options displayed in a comma-separated list and "select all" text changed
     $("#mySelect1").ultraselect({oneOrMoreSelected: "*", selectAllText: "Pick &lsquo;em all!"});
 
@@ -105,7 +105,15 @@ $(document).ready( function() {
 });
 ```
 
-You can also pass an optional callback function as a second argument to the initialization function.
+You can also pass an optional callback function as the second argument to the initialization function. Callback will be triggered whenever selection changes, similarly to the `change` event on a `<select>` element:
+
+```javascript
+$(document).ready(function () {
+    $(".ultraSelect").ultraselect({}, function (el) {
+        console.log("#" + el.attr("id") + " selection changed");
+    });
+});
+```
 
 #### Available options:
 
