@@ -2,6 +2,7 @@
   "name": "ultraselect",
   "version": "2.0.0-dev",
   "description": "Provides custom functionality for the HTML select elements.",
+  "main": "dist/jquery.ultraselect.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/ultraleettech/ultraselect/issues"
   },
-  "homepage": "https://github.com/ultraleettech/ultraselect#readme"
+  "homepage": "https://github.com/ultraleettech/ultraselect#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
 }
