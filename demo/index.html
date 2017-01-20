@@ -5,34 +5,40 @@
         <title>jQuery Ultraselect Demo</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
+        <!-- scripts -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
         <script src="../dist/jquery.ultraselect.js" type="text/javascript"></script>
 
+        <!-- syntax highlighting -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+
+        <!-- stylesheets -->
         <link href="../dist/jquery.ultraselect.css" rel="stylesheet" type="text/css" />
 
         <script type="text/javascript">
 
-            $(document).ready( function() {
+            $(document).ready(function () {
 
                 // Default options
                 $("#control_1, #control_3, #control_4, #control_5, #control_9").ultraselect();
 
                 // With callback
-                $("#control_6").ultraselect( null, function(el) {
+                $("#control_6").ultraselect(null, function (el) {
                     $("#callbackResult").show().fadeOut();
                 });
 
                 // Options displayed in comma-separated list
-                $("#control_7").ultraselect({ oneOrMoreSelected: '*' });
+                $("#control_7").ultraselect({oneOrMoreSelected: '*'});
 
                 // 'Select All' text changed
-                $("#control_8").ultraselect({ selectAllText: 'Pick &lsquo;em all!' });
+                $("#control_8").ultraselect({selectAllText: 'Pick &lsquo;em all!'});
 
                 // Selectable option groups
-                $("#control_10").ultraselect({ selectAll: false, optGroupSelectable: true});
+                $("#control_10").ultraselect({selectAll: false, optGroupSelectable: true});
 
                 // Options displayed in comma-separated list only if they fit
-                $("#control_11").ultraselect({ autoListSelected: true });
+                $("#control_11").ultraselect({autoListSelected: true});
 
                 // Test data attributes transfer
                 $("#dataTest").append(
@@ -41,9 +47,12 @@
                     $(".option-class").data("test")
                 );
 
+                // Init syntax highlighting
+                hljs.initHighlightingOnLoad();
+
                 // Show test data
-                $("FORM").submit( function() {
-                    $.post('result.php', $(this).serialize(), function(r) {
+                $("FORM").submit(function () {
+                    $.post('result.php', $(this).serialize(), function (r) {
                         alert(r);
                     });
                     return false;
@@ -91,6 +100,37 @@
             </p>
 
             <h2>Control 1: Default options</h2>
+            <pre>
+                <code class="html">
+&lt;select id="control_1" name="control_1[]" multiple="multiple" size="5"&gt;
+    &lt;option value=""&gt;&lt;/option&gt;
+    &lt;optgroup label="Optgroup 1"&gt;
+        &lt;option value="option_1"&gt;Option 1&lt;/option&gt;
+        &lt;option value="option_2"&gt;Option 2&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="Optgroup 2"&gt;
+        &lt;option value="option_3"&gt;Option 3&lt;/option&gt;
+        &lt;option value="option_4"&gt;Option 4&lt;/option&gt;
+        &lt;option value="option_5"&gt;Option 5&lt;/option&gt;
+        &lt;option value="option_6"&gt;Option 6&lt;/option&gt;
+        &lt;option value="option_7"&gt;Option 7&lt;/option&gt;
+        &lt;option value="option_8"&gt;Option 8&lt;/option&gt;
+    &lt;/optgroup&gt;
+
+    &lt;optgroup label="Optgroup 3"&gt;
+        &lt;option value="option_9"&gt;Option 9&lt;/option&gt;
+        &lt;option value="option_10"&gt;Option 10&lt;/option&gt;
+        &lt;option value="option_11"&gt;Option 11&lt;/option&gt;
+        &lt;option value="option_12"&gt;Option 12&lt;/option&gt;
+    &lt;/optgroup&gt;
+&lt;/select&gt;
+&lt;script&gt;
+    $(document).ready(function () {
+        $("#control_1").ultraselect();
+    });
+&lt;/script&gt;
+                </code>
+            </pre>
             <p>
                 <select id="control_1" name="control_1[]" multiple="multiple" size="5">
                     <option value=""></option>
