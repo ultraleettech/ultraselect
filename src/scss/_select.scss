@@ -1,0 +1,38 @@
+a.multiSelect {
+    background: #FFF url(images/dropdown.blue.png) right center no-repeat;
+    border: solid 1px #BBB;
+    padding-right: 20px;
+    position: relative;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+
+    &:link, &:visited, &:hover, &:active {
+        color: black;
+        text-decoration: none;
+    }
+
+    span {
+        margin: 1px 0px 1px 3px;
+        overflow: hidden;
+        display: -moz-inline-stack;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    &.hover {
+        background-image: url(images/dropdown.blue.hover.png);
+    }
+
+    &.active, &.focus {
+        border: inset 1px #000;
+    }
+
+    &.active {
+        background-image: url(images/dropdown.blue.active.png);
+    }
+
+}

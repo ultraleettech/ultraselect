@@ -1,0 +1,44 @@
+.multiSelectOptions {
+    margin-top: -1px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: solid 1px #B2B2B2;
+    background: #FFF;
+
+    LABEL {
+        padding: 0px 2px;
+        display: block;
+        white-space: nowrap;
+
+        &.optGroup {
+            font-weight: bold;
+        }
+
+        &.checked {
+            background-color: #dce5f8;
+        }
+
+        &.selectAll {
+            border-bottom: dotted 1px #CCC;
+        }
+
+        &.hover {
+            background-color: #3399ff;
+            color: white;
+        }
+    }
+
+    .optGroupContainer LABEL {
+        padding-left: 10px;
+    }
+
+    &.optGroupHasCheckboxes .optGroupContainer LABEL {
+        padding-left: 18px;
+    }
+
+    input {
+        vertical-align: middle;
+    }
+
+}
+
