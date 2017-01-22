@@ -11,4 +11,10 @@ gulp.task("sass", function () {
         .pipe(gulp.dest("dist"));
 });
 
+gulp.task("watch", function () {
+    setTimeout(function () {
+        gulp.watch("src/scss/*.scss", ["sass"])
+    }, 300);
+});
+
 gulp.task("default", ["sass"]);
