@@ -341,7 +341,7 @@ if (jQuery) {
                     // Tab
                     if (e.keyCode === 9) {
                         $(this).addClass("focus").trigger("click"); // esc, left, right - hide
-                        //$(this).focus().next(":input").focus();
+                        //$(this).focus().next().focus();
                         return true;
                     }
 
@@ -476,7 +476,7 @@ if (jQuery) {
                     // build the component
                     var ultraSelect = $("<div />", {class: "ultraselect"});
                     var multiSelect = $("<div />", {class: "select", tabIndex: 0});
-                    var multiSelectOptions = $("<div />", {class: "options"})
+                    var multiSelectOptions = $("<div />", {class: "options", tabIndex: -1})
 
                     multiSelect.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
                     ultraSelect.append(multiSelect, multiSelectOptions);
