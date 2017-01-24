@@ -13,7 +13,10 @@
 
 .ultraselect {
   display: table;
-  border-collapse: collapse; }
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   .ultraselect .select {
     display: block;
     position: relative;

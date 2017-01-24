@@ -1,6 +1,6 @@
 .ultraselect {
     display: table;
-    border-collapse: collapse;
+    user-select: none;
 
     @import "select";
     @import "options";
