@@ -4,11 +4,16 @@
  * Copyright 2017 Ultraleet Technologies
  * Licensed under GPL and MIT
  */
-.ultraselect {
+.ultraselectWrapper {
   display: inline-block;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  overflow: hidden; }
+  .ultraselectWrapper * {
+    box-sizing: border-box; }
+
+.ultraselect {
+  display: table; }
   .ultraselect .select {
-    box-sizing: border-box;
     display: block;
     position: relative;
     border: solid 1px darkgray;
@@ -41,13 +46,15 @@
     .ultraselect .select span.selection {
       margin: 1px 0px 1px 3px;
       overflow: hidden;
-      display: inline-block;
+      display: block;
       white-space: nowrap; }
   .ultraselect .options {
-    margin-top: -1px;
+    position: relative;
+    z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
     border: solid 1px #799bd2;
+    border-top: none;
     background: white; }
     .ultraselect .options .hasInput {
       padding: 0px 2px;

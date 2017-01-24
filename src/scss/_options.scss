@@ -1,8 +1,10 @@
 .options {
-    margin-top: -1px;
+    position: relative;
+    z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
     border: solid 1px $optionsBorderColor;
+    border-top: none;
     background: $backgroundColor;
 
     .hasInput {

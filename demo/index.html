@@ -103,7 +103,6 @@
             <pre>
                 <code class="html">
 &lt;select id="control_1" name="control_1[]" multiple="multiple" size="5"&gt;
-    &lt;option value=""&gt;&lt;/option&gt;
     &lt;optgroup label="Optgroup 1"&gt;
         &lt;option value="option_1"&gt;Option 1&lt;/option&gt;
         &lt;option value="option_2"&gt;Option 2&lt;/option&gt;
@@ -133,7 +132,6 @@
             </pre>
             <p>
                 <select id="control_1" name="control_1[]" multiple="multiple" size="5">
-                    <option value=""></option>
                     <optgroup label="Optgroup 1">
                         <option value="option_1">Option 1</option>
                         <option value="option_2">Option 2</option>
@@ -159,7 +157,6 @@
             <h2>Control 3, 4, 5: Pre-selected options</h2>
             <p>
                 <select id="control_3" name="control_3[]" multiple="multiple" size="5">
-                    <option value=""></option>
                     <option value="option_1" selected="selected">Option 1</option>
                     <option value="option_2">Option 2</option>
 
@@ -172,7 +169,6 @@
 
 
                 <select id="control_4" name="control_4[]" multiple="multiple" size="5">
-                    <option value=""></option>
                     <option value="option_1" selected="selected">Option 1</option>
                     <option value="option_2" selected="selected">Option 2</option>
                     <option value="option_3">Option 3</option>
@@ -184,7 +180,6 @@
                 </select>
 
                 <select id="control_5" name="control_5[]" multiple="multiple" size="5">
-                    <option value=""></option>
                     <option value="option_1" selected="selected">Option 1</option>
                     <option value="option_2" selected="selected">Option 2</option>
 
@@ -201,7 +196,6 @@
             <p>
                 <span id="callbackResult" style="display: none;">Callback triggered!</span><br />
                 <select id="control_6" name="control_6[]" multiple="multiple" size="5">
-                    <option value=""></option>
                     <option value="option_1">Option 1</option>
 
                     <option value="option_2">Option 2</option>
@@ -217,7 +211,6 @@
             <h2>Control 7: Options displayed in comma-separated list</h2>
             <p>
                 <select id="control_7" name="control_7[]" multiple="multiple" size="5">
-                    <option value=""></option>
                     <option value="option_1">Option 1</option>
                     <option value="option_2">Option 2</option>
 
@@ -233,7 +226,6 @@
             <h2>Control 8: &ldquo;Select All&rdquo; text changed</h2>
             <p>
                 <select id="control_8" name="control_8[]" multiple="multiple" size="5">
-                    <option value=""></option>
                     <option value="option_1">Option 1</option>
                     <option value="option_2">Option 2</option>
                     <option value="option_3">Option 3</option>
@@ -248,7 +240,6 @@
             <h2>Control 9: Default options with added class and data attributes</h2>
             <p>
                 <select id="control_9" name="control_9[]" multiple="multiple" size="5" class="select-class" data-test="testSelect">
-                    <option value=""></option>
                     <optgroup label="Optgroup 1" class="optgroup-class" data-test="testOptgroup">
                         <option value="option_1" class="option-class" data-test="testOption">Option 1</option>
                         <option value="option_2">Option 2</option>
@@ -299,8 +290,8 @@
 
             <h2>Control 11: Options displayed in comma-separated list only if it fits</h2>
             <p>
-                <select id="control_11" name="control_11[]" multiple="multiple" size="5">
-                    <option value=""></option>
+                <!-- You can use the "max-width" style property to limit the width of the element -->
+                <select id="control_11" name="control_11[]" style="max-width: 150px;" multiple="multiple" size="5">
                     <option value="option_1">Option 1</option>
                     <option value="option_2">Option 2</option>
 

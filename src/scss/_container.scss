@@ -1,6 +1,5 @@
 .ultraselect {
-    display: inline-block;
-    box-sizing: border-box;
+    display: table;
 
     @import "select";
     @import "options";

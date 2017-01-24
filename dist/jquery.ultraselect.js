@@ -49,7 +49,8 @@ if (jQuery) {
             oneOrMoreSelected: "% selected",
             autoListSelected: false,
             optGroupSelectable: false,
-            listHeight: 150
+            listHeight: 150,
+            maxWidth: false
         };
 
         // Determines if the passed element is overflowing its bounds,
@@ -455,18 +456,22 @@ if (jQuery) {
                 // Initialize each select
                 src.each(function () {
                     var select = $(this);
+
+                    // extend config based on current element
+                    var conf = $.extend(true, {}, o);
+                    conf.maxWidth = select.css("maxWidth") !== 'none'
+                        ? select.css("maxWidth")
+                        : conf.maxWidth;
+
+                    // build the component
                     var ultraSelect = $("<div />", {class: "ultraselect"});
                     var multiSelect = $("<div />", {class: "select", tabIndex: 0});
                     var multiSelectOptions = $("<div />", {class: "options"})
-                        .css({
-                            position: "absolute",
-                            zIndex: 999,
-                            visibility: "hidden"
-                        });
 
                     multiSelect.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
                     ultraSelect.append(multiSelect, multiSelectOptions);
 
+                    // insert new element into DOM
                     select.after(ultraSelect);
 
                     // transfer classes and data attributes from the original select element
@@ -476,8 +481,13 @@ if (jQuery) {
                     // if the select object had a width defined then match the new element to it
                     //multiSelect.find("span.selection").css("width", $(select).width() + "px");
 
+                    // apply max width
+                    if (conf.maxWidth) {
+                        multiSelect.css("maxWidth", conf.maxWidth);
+                    }
+
                     // Attach the config options to the multiselect
-                    ultraSelect.data("config", o);
+                    ultraSelect.data("config", conf);
 
                     // Attach the callback to the multiselect
                     ultraSelect.data("callback", callback);
@@ -527,6 +537,10 @@ if (jQuery) {
                     // Build the dropdown options
                     buildOptions.call(ultraSelect, options);
 
+                    // Set dimensions
+                    ultraSelect.wrap("<div class=\"ultraselectWrapper\"></div>");
+                    ultraSelect.parent().height(multiSelect.outerHeight());
+
                     // Events
                     multiSelect.hover(function () {
                         $(this).addClass("hover");
@@ -565,7 +579,8 @@ if (jQuery) {
 
             // Hide the dropdown
             hideOptions: function (src) {
-                src.children(".select").removeClass("active").removeClass("hover").next(".options").css("visibility", "hidden");
+                src.children(".select").removeClass("active").removeClass("hover");
+                src.parent().css("overflow", "hidden");
             },
 
             // Show the dropdown
@@ -578,19 +593,19 @@ if (jQuery) {
                 $.ultraselect.hideOptions($(".ultraselect"));
 
                 // Show options
-                options.css("visibility", "visible")
-                    .find(".option, .optGroup").removeClass("hover");
+                src.parent().css("overflow", "visible")
+                options.find(".option, .optGroup").removeClass("hover");
                 select.addClass("active").focus();
 
                 // reset the scroll to the top
                 options.scrollTop(0);
 
                 // Position it
-                var offset = select.position();
+                /*var offset = select.position();
                 options.css({
                     top: offset.top + src.outerHeight() + "px",
                     left: offset.left + "px"
-                });
+                });*/
             },
 
             // get a comma-delimited list of selected values

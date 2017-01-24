@@ -1,3 +1,9 @@
+## [2.0.0]
+- Upgraded development environment to use modern node.js based tools
+- Migrated to using SASS (SCSS) in place of plain CSS
+- Refactored generated DOM for more flexible layout and styling
+- Added option for specifying maximum width of the resulting element
+
 ## [1.3.1]
 - Fixed jQuery compatibility issues
 
