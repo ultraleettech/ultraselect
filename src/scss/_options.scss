@@ -1,4 +1,5 @@
 .options {
+    display: block;
     position: relative;
     z-index: 1;
     overflow-y: auto;
@@ -6,6 +7,10 @@
     border: solid 1px $optionsBorderColor;
     border-top: none;
     background: $backgroundColor;
+
+    > div {
+        display: table;
+    }
 
     .hasInput {
         padding: 0px 2px;
@@ -44,6 +49,12 @@
 
     input {
         vertical-align: middle;
+    }
+
+    // adjust options menu width in firefox where scrollbar is included in width calculation
+    // scroll bar width is 17px, add 2 to compensate for .hasInput padding
+    &._firefox .hasInput {
+        padding-right: 19px;
     }
 
 }

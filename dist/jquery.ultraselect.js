@@ -165,6 +165,7 @@ if (jQuery) {
                 type: "checkbox",
                 name: id + "[]",
                 id: uid,
+                tabindex: -1
             });
             var label = $("<label />", {for: uid});
             var spans = $("<span><span></span></span>");
@@ -202,7 +203,7 @@ if (jQuery) {
                     if (o.optGroupSelectable) {
                         var uid = id + "_" + (inc += 1);
 
-                        el.append($("<input />", {type: "checkbox", class: "optGroup", id: uid}));
+                        el.append($("<input />", {type: "checkbox", class: "optGroup", id: uid, tabindex: -1}));
                         label.attr("for", uid).append("<span><span></span></span>");
                     }
 
@@ -235,7 +236,7 @@ if (jQuery) {
             if (o.selectAll) {
                 multiSelectOptions.append(
                     $("<div />", {class: "selectAll"}).append(
-                        $("<input />", {type: "checkbox", class: "selectAll", id: uid}),
+                        $("<input />", {type: "checkbox", class: "selectAll", id: uid, tabindex: -1}),
                         "<span><span></span></span>",
                         $("<label />", {for: uid, text: o.selectAllText})
                     )
@@ -247,10 +248,19 @@ if (jQuery) {
 
             // set the height of the dropdown options
             if (multiSelectOptions.height() > o.listHeight) {
+                var initialWidth = multiSelectOptions.width();
+
                 multiSelectOptions.css("height", o.listHeight + "px");
+
+                // add padding in firefox to compensate for the scrollbar issue
+                if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                    multiSelectOptions.addClass("_firefox");
+                }
             } else {
                 multiSelectOptions.css("height", "");
             }
+
+            //
 
             // Handle selectAll oncheck
             if (o.selectAll) {
@@ -326,12 +336,12 @@ if (jQuery) {
                 multiSelectOptions = $(this).next(".options");
 
                 // Is dropdown visible?
-                if (multiSelectOptions.css("visibility") !== "hidden") {
+                if (ultraSelect.parent().css("overflow") !== "hidden") {
                     // Dropdown is visible
                     // Tab
                     if (e.keyCode === 9) {
                         $(this).addClass("focus").trigger("click"); // esc, left, right - hide
-                        $(this).focus().next(":input").focus();
+                        //$(this).focus().next(":input").focus();
                         return true;
                     }
 
@@ -433,7 +443,7 @@ if (jQuery) {
                     //  Tab key
                     if (e.keyCode === 9) {
                         // Shift focus to next input element on page
-                        multiSelectOptions.next(":input").focus();
+                        //multiSelectOptions.find(":input:first").focus();
                         return true;
                     }
                 }

@@ -12,7 +12,8 @@
     box-sizing: border-box; }
 
 .ultraselect {
-  display: table; }
+  display: table;
+  border-collapse: collapse; }
   .ultraselect .select {
     display: block;
     position: relative;
@@ -49,6 +50,7 @@
       display: block;
       white-space: nowrap; }
   .ultraselect .options {
+    display: block;
     position: relative;
     z-index: 1;
     overflow-y: auto;
@@ -56,6 +58,8 @@
     border: solid 1px #799bd2;
     border-top: none;
     background: white; }
+    .ultraselect .options > div {
+      display: table; }
     .ultraselect .options .hasInput {
       padding: 0px 2px;
       display: block;
@@ -77,3 +81,5 @@
         padding-left: 0; }
     .ultraselect .options input {
       vertical-align: middle; }
+    .ultraselect .options._firefox .hasInput {
+      padding-right: 19px; }
