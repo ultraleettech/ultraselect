@@ -1,39 +1,43 @@
-.multiSelectOptions {
+.options {
     margin-top: -1px;
     overflow-y: auto;
     overflow-x: hidden;
-    border: solid 1px #B2B2B2;
-    background: #FFF;
+    border: solid 1px $optionsBorderColor;
+    background: $backgroundColor;
 
-    LABEL {
+    .hasInput {
         padding: 0px 2px;
         display: block;
         white-space: nowrap;
 
-        &.optGroup {
-            font-weight: bold;
-        }
-
         &.checked {
-            background-color: #dce5f8;
+            background-color: $checkedBackgroundColor;
         }
 
         &.selectAll {
-            border-bottom: dotted 1px #CCC;
+            border-bottom: dotted 1px $selectAllBottomBorderColor;
         }
 
         &.hover {
-            background-color: #3399ff;
+            background-color: $hoverBackgroundColor;
             color: white;
         }
     }
 
-    .optGroupContainer LABEL {
+    .optGroupLabel {
+        font-weight: bold;
+    }
+
+    .optGroup .hasInput {
         padding-left: 10px;
     }
 
-    &.optGroupHasCheckboxes .optGroupContainer LABEL {
+    &.optGroupHasCheckboxes .optGroup .hasInput {
         padding-left: 18px;
+
+        &.optGroupLabel {
+            padding-left: 0;
+        }
     }
 
     input {

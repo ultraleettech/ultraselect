@@ -1,0 +1,7 @@
+.ultraselect {
+    display: inline-block;
+    box-sizing: border-box;
+
+    @import "select";
+    @import "options";
+}

@@ -464,7 +464,7 @@ if (jQuery) {
                             visibility: "hidden"
                         });
 
-                    multiSelect.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}));
+                    multiSelect.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
                     ultraSelect.append(multiSelect, multiSelectOptions);
 
                     select.after(ultraSelect);

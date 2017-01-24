@@ -4,55 +4,69 @@
  * Copyright 2017 Ultraleet Technologies
  * Licensed under GPL and MIT
  */
-a.multiSelect {
-  background: #FFF url(images/dropdown.blue.png) right center no-repeat;
-  border: solid 1px #BBB;
-  padding-right: 20px;
-  position: relative;
-  cursor: default;
-  text-decoration: none;
-  color: black;
-  display: -moz-inline-stack;
+.ultraselect {
   display: inline-block;
-  vertical-align: top; }
-  a.multiSelect:link, a.multiSelect:visited, a.multiSelect:hover, a.multiSelect:active {
-    color: black;
-    text-decoration: none; }
-  a.multiSelect span {
-    margin: 1px 0px 1px 3px;
-    overflow: hidden;
-    display: -moz-inline-stack;
-    display: inline-block;
-    white-space: nowrap; }
-  a.multiSelect.hover {
-    background-image: url(images/dropdown.blue.hover.png); }
-  a.multiSelect.active, a.multiSelect.focus {
-    border: inset 1px #000; }
-  a.multiSelect.active {
-    background-image: url(images/dropdown.blue.active.png); }
-
-.multiSelectOptions {
-  margin-top: -1px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border: solid 1px #B2B2B2;
-  background: #FFF; }
-  .multiSelectOptions LABEL {
-    padding: 0px 2px;
+  box-sizing: border-box; }
+  .ultraselect .select {
+    box-sizing: border-box;
     display: block;
-    white-space: nowrap; }
-    .multiSelectOptions LABEL.optGroup {
+    position: relative;
+    border: solid 1px darkgray;
+    padding-right: 20px;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+    vertical-align: top; }
+    .ultraselect .select.hover {
+      border-color: #7f7f7f; }
+    .ultraselect .select.active, .ultraselect .select.focus {
+      border: inset 1px #6688bf; }
+    .ultraselect .select span.arrow {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 20px;
+      height: 100%; }
+      .ultraselect .select span.arrow b {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 0;
+        width: 0;
+        margin-left: -2px;
+        margin-top: -2px;
+        border-color: black transparent transparent transparent;
+        border-style: solid;
+        border-width: 5px 3px 0 3px; }
+    .ultraselect .select span.selection {
+      margin: 1px 0px 1px 3px;
+      overflow: hidden;
+      display: inline-block;
+      white-space: nowrap; }
+  .ultraselect .options {
+    margin-top: -1px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: solid 1px #799bd2;
+    background: white; }
+    .ultraselect .options .hasInput {
+      padding: 0px 2px;
+      display: block;
+      white-space: nowrap; }
+      .ultraselect .options .hasInput.checked {
+        background-color: #dce5f8; }
+      .ultraselect .options .hasInput.selectAll {
+        border-bottom: dotted 1px #cccccc; }
+      .ultraselect .options .hasInput.hover {
+        background-color: dodgerblue;
+        color: white; }
+    .ultraselect .options .optGroupLabel {
       font-weight: bold; }
-    .multiSelectOptions LABEL.checked {
-      background-color: #dce5f8; }
-    .multiSelectOptions LABEL.selectAll {
-      border-bottom: dotted 1px #CCC; }
-    .multiSelectOptions LABEL.hover {
-      background-color: #3399ff;
-      color: white; }
-  .multiSelectOptions .optGroupContainer LABEL {
-    padding-left: 10px; }
-  .multiSelectOptions.optGroupHasCheckboxes .optGroupContainer LABEL {
-    padding-left: 18px; }
-  .multiSelectOptions input {
-    vertical-align: middle; }
+    .ultraselect .options .optGroup .hasInput {
+      padding-left: 10px; }
+    .ultraselect .options.optGroupHasCheckboxes .optGroup .hasInput {
+      padding-left: 18px; }
+      .ultraselect .options.optGroupHasCheckboxes .optGroup .hasInput.optGroupLabel {
+        padding-left: 0; }
+    .ultraselect .options input {
+      vertical-align: middle; }
