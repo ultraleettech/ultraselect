@@ -470,7 +470,7 @@ if (jQuery) {
                     select.after(ultraSelect);
 
                     // transfer classes and data attributes from the original select element
-                    ultraSelect.addClass("class", select.attr("class"));
+                    ultraSelect.addClass(select.attr("class"));
                     ultraSelect.data(select.data());
 
                     // if the select object had a width defined then match the new element to it
