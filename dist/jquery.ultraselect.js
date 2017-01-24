@@ -237,8 +237,7 @@ if (jQuery) {
                 multiSelectOptions.append(
                     $("<div />", {class: "selectAll"}).append(
                         $("<input />", {type: "checkbox", class: "selectAll", id: uid, tabindex: -1}),
-                        "<span><span></span></span>",
-                        $("<label />", {for: uid, text: o.selectAllText})
+                        $("<label />", {for: uid}).append("<span><span></span></span>", o.selectAllText)
                     )
                 );
             }

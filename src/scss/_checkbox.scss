@@ -1,0 +1,47 @@
+// hide the original checkboxes
+input[type=checkbox]:not(old) {
+    width: 2em;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    opacity: 0;
+}
+
+// position the label
+input[type=checkbox]:not(old) + label {
+    display: inline-block;
+    margin-left: -2em;
+    line-height: 1.5em;
+}
+
+// create the checkbox graphics
+input[type=checkbox]:not(old) + label > span {
+    display: inline-block;
+    width: 0.875em;
+    height: 0.875em;
+    margin: 0.25em 0.5em 0.25em 0.25em;
+    border: 0.0625em solid $checkboxBorderColor;
+    border-radius: 0.25em;
+    background: $checkboxGradientColor2;
+    background-image: linear-gradient($checkboxGradientColor1, $checkboxGradientColor2);
+    vertical-align: bottom;
+}
+
+// set the selected item background
+input[type=checkbox]:not(old):checked + label > span {
+    background-image: linear-gradient($checkboxGradientColor2, $checkboxGradientColor1);
+}
+
+// display the tick in checked boxes
+input[type=checkbox]:not(old):checked + label > span:before {
+    content: '✓';
+    display: block;
+    width: 1em;
+    color: $checkboxColor;
+    font-size: 0.875em;
+    line-height: 1em;
+    text-align: center;
+    text-shadow: 0 0 0.0714em $checkboxShadowColor;
+    font-weight: bold;
+}
+

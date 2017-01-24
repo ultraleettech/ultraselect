@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  * jQuery ultraselect v2.0.0-dev
  * Copyright 2008-2017 A Beautiful Site, LLC.
@@ -86,3 +87,37 @@
       vertical-align: middle; }
     .ultraselect .options._firefox .hasInput {
       padding-right: 19px; }
+  .ultraselect input[type=checkbox]:not(old) {
+    width: 2em;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    opacity: 0; }
+  .ultraselect input[type=checkbox]:not(old) + label {
+    display: inline-block;
+    margin-left: -2em;
+    line-height: 1.5em; }
+  .ultraselect input[type=checkbox]:not(old) + label > span {
+    display: inline-block;
+    width: 0.875em;
+    height: 0.875em;
+    margin: 0.25em 0.5em 0.25em 0.25em;
+    border: 0.0625em solid silver;
+    border-radius: 0.25em;
+    background: #e0e0e0;
+    background-image: -webkit-linear-gradient(#f0f0f0, #e0e0e0);
+    background-image: linear-gradient(#f0f0f0, #e0e0e0);
+    vertical-align: bottom; }
+  .ultraselect input[type=checkbox]:not(old):checked + label > span {
+    background-image: -webkit-linear-gradient(#e0e0e0, #f0f0f0);
+    background-image: linear-gradient(#e0e0e0, #f0f0f0); }
+  .ultraselect input[type=checkbox]:not(old):checked + label > span:before {
+    content: '✓';
+    display: block;
+    width: 1em;
+    color: black;
+    font-size: 0.875em;
+    line-height: 1em;
+    text-align: center;
+    text-shadow: 0 0 0.0714em gray;
+    font-weight: bold; }
