@@ -159,7 +159,8 @@ if (jQuery) {
         // generate the single option element
         var inc = 0;
         function createOption(id, option) {
-            var uid = id + "_" + (inc += 1);
+            inc += 1;
+            var uid = id + "_" + inc;
             var $option = $("<div />", {class: "option"});
             var input = $("<input />", {
                 type: "checkbox",
@@ -183,10 +184,10 @@ if (jQuery) {
 
         // generate the options/optgroups
         function createOptions(id, options, o) {
+            var uid;
             var i;
             var el;
             var label;
-            var container;
             var $options = $("<div />", {class: "options"});
 
             for (i = 0; i < options.length; i += 1) {
@@ -201,7 +202,8 @@ if (jQuery) {
                     label = $("<label />");
 
                     if (o.optGroupSelectable) {
-                        var uid = id + "_" + (inc += 1);
+                        inc += 1;
+                        uid = id + "_" + inc;
 
                         el.append($("<input />", {type: "checkbox", class: "optGroup", id: uid, tabindex: -1}));
                         label.attr("for", uid).append("<span><span></span></span>");
@@ -222,7 +224,8 @@ if (jQuery) {
 
         // Building the actual options
         function buildOptions(options) {
-            var uid = "selectAll_" + (inc += 1);
+            inc += 1;
+            var uid = "selectAll_" + inc;
             var ultraSelect = $(this);
             var multiSelect = ultraSelect.children(".select");
             var multiSelectOptions = ultraSelect.children(".options");
@@ -247,12 +250,10 @@ if (jQuery) {
 
             // set the height of the dropdown options
             if (multiSelectOptions.height() > o.listHeight) {
-                var initialWidth = multiSelectOptions.width();
-
                 multiSelectOptions.css("height", o.listHeight + "px");
 
                 // add padding in firefox to compensate for the scrollbar issue
-                if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1) {
                     multiSelectOptions.addClass("_firefox");
                 }
             } else {
@@ -468,14 +469,14 @@ if (jQuery) {
 
                     // extend config based on current element
                     var conf = $.extend(true, {}, o);
-                    conf.maxWidth = select.css("maxWidth") !== 'none'
+                    conf.maxWidth = select.css("maxWidth") !== "none"
                         ? select.css("maxWidth")
                         : conf.maxWidth;
 
                     // build the component
                     var ultraSelect = $("<div />", {class: "ultraselect"});
                     var multiSelect = $("<div />", {class: "select", tabIndex: 0});
-                    var multiSelectOptions = $("<div />", {class: "options", tabIndex: -1})
+                    var multiSelectOptions = $("<div />", {class: "options", tabIndex: -1});
 
                     multiSelect.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
                     ultraSelect.append(multiSelect, multiSelectOptions);
@@ -602,7 +603,7 @@ if (jQuery) {
                 $.ultraselect.hideOptions($(".ultraselect"));
 
                 // Show options
-                src.parent().css("overflow", "visible")
+                src.parent().css("overflow", "visible");
                 options.find(".option, .optGroup").removeClass("hover");
                 select.addClass("active").focus();
 
