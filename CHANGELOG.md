@@ -4,6 +4,7 @@
 - Refactored generated DOM for more flexible layout and styling
 - Added option for specifying maximum width of the resulting element
 - Added custom checkbox styles
+- Increased default listHeight value to 200
 
 ## [1.3.1]
 - Fixed jQuery compatibility issues

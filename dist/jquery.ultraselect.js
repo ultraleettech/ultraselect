@@ -49,7 +49,7 @@ if (jQuery) {
             oneOrMoreSelected: "% selected",
             autoListSelected: false,
             optGroupSelectable: false,
-            listHeight: 150,
+            listHeight: 200,
             maxWidth: false
         };
 
