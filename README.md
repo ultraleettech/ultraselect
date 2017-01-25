@@ -126,6 +126,7 @@ $(document).ready(function () {
 // autoListSelected   - show comma selected list if it fits the element, oneOrMoreSelected value otherwise
 // optGroupSelectable - whether or not optgroups are selectable if you use them; true/false, default = false
 // listHeight         - the max height of the droptdown options
+// maxWidth           - the max width of the select (use any supported units, e.g. 150px or 100%)
 ```
 
 

@@ -1,0 +1,8 @@
+.ultraselect {
+    display: table;
+    user-select: none;
+
+    @import "select";
+    @import "options";
+    @import "checkbox";
+}
