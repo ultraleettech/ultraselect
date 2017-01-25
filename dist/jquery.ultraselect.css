@@ -62,8 +62,6 @@
     border: solid 1px #799bd2;
     border-top: none;
     background: white; }
-    .ultraselect .options > div {
-      display: table; }
     .ultraselect .options .hasInput {
       padding: 0px 2px;
       display: block;
