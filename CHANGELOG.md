@@ -5,6 +5,8 @@
 - Added option for specifying maximum width of the resulting element
 - Added custom checkbox styles
 - Increased default listHeight value to 200
+- Refactored plugin API
+- Added API method setListHeight
 
 ## [1.3.1]
 - Fixed jQuery compatibility issues

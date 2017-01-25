@@ -21,7 +21,7 @@
 
 /* JSLINT NOTATIONS */
 /*global
-    jQuery
+    jQuery console
 */
 
 if (jQuery) {
@@ -248,18 +248,7 @@ if (jQuery) {
             $options.append(createOptions(this.attr("id"), options, o));
 
             // set the height of the dropdown options
-            if ($options.height() > o.listHeight) {
-                $options.css("height", o.listHeight + "px");
-
-                // add padding in firefox to compensate for the scrollbar issue
-                if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1) {
-                    $options.addClass("_firefox");
-                }
-            } else {
-                $options.css("height", "");
-            }
-
-            //
+            $ultraSelect.ultraselect("setListHeight", o.listHeight);
 
             // Handle selectAll oncheck
             if (o.selectAll) {
@@ -617,7 +606,7 @@ if (jQuery) {
                 $options.scrollTop(0);
             },
 
-            // get a comma-delimited list of selected values
+            // Get a comma-delimited list of selected values
             selectedString: function () {
                 var selectedValues = "";
                 this.find("input:checkbox:checked").not(".optGroup, .selectAll").each(function () {
@@ -625,6 +614,21 @@ if (jQuery) {
                 });
                 // trim any end comma and surounding whitespace
                 return selectedValues.replace(/\s*,\s*$/, "");
+            },
+
+            // Set maximum options height
+            setListHeight: function (listHeight) {
+                var $options = this.children(".options");
+                if ($options.height() > listHeight) {
+                    $options.css("height", listHeight + "px");
+
+                    // add padding in firefox to compensate for the scrollbar issue
+                    if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1) {
+                        $options.addClass("_firefox");
+                    }
+                } else {
+                    $options.css("height", "");
+                }
             }
         });
 
@@ -639,13 +643,14 @@ if (jQuery) {
 
         // Actual jQuery plugin definition
         $.fn.ultraselect = function (options, callback) {
+            var args = Array.prototype.slice.call(arguments, 1);
             return this.each(function () {
                 if (!$(this).data("ultraselect")) {
                     // Initialize
                     new UltraSelect(this, options, callback);
                 } else if (typeof options === "string" && typeof UltraSelect.prototype[options] === "function") {
                     // Call plugin method
-                    $(this).data("ultraselect")[options].apply($(this), Array.prototype.slice.call(arguments, 1));
+                    $(this).data("ultraselect")[options].apply($(this), args);
                 } else {
                     // Error
                     console.log("ultraselect: invalid arguments");
