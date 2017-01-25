@@ -19,8 +19,7 @@
 //
 */
 
-/* JSLINT STUFF FIRST */
-
+/* JSLINT NOTATIONS */
 /*global
     jQuery
 */
@@ -72,17 +71,17 @@ if (jQuery) {
         }
 
         // Adjust the viewport if necessary
-        function adjustViewPort(multiSelectOptions) {
+        function adjustViewPort($options) {
             // check for and move down
-            var selectionBottom = multiSelectOptions.find(".hasInput.hover").position().top + multiSelectOptions.find(".hasInput.hover").outerHeight();
+            var selectionBottom = $options.find(".hasInput.hover").position().top + $options.find(".hasInput.hover").outerHeight();
 
-            if (selectionBottom > multiSelectOptions.innerHeight()) {
-                multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + selectionBottom - multiSelectOptions.innerHeight());
+            if (selectionBottom > $options.innerHeight()) {
+                $options.scrollTop($options.scrollTop() + selectionBottom - $options.innerHeight());
             }
 
             // check for and move up
-            if (multiSelectOptions.find(".hasInput.hover").position().top < 0) {
-                multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + multiSelectOptions.find(".hasInput.hover").position().top);
+            if ($options.find(".hasInput.hover").position().top < 0) {
+                $options.scrollTop($options.scrollTop() + $options.find(".hasInput.hover").position().top);
             }
         }
 
@@ -92,7 +91,7 @@ if (jQuery) {
 
             // Determine if the optgroup should be checked
             if (o.optGroupSelectable) {
-                //var multiSelect = this.children(".select");
+                //var $select = this.children(".select");
                 var optGroupSelected = true;
 
                 $(optGroup).children(":not(.optGroupLabel)").find("input:checkbox").each(function () {
@@ -111,15 +110,15 @@ if (jQuery) {
 
         // Update the textbox with the total number of selected items, and determine select all
         function updateSelected() {
-            var multiSelect = this.children(".select");
-            var multiSelectOptions = this.children(".options");
-            var selection = multiSelect.find("span.selection");
+            var $select = this.children(".select");
+            var $options = this.children(".options");
+            var selection = $select.find("span.selection");
             var o = this.data("config");
 
             var i = 0;
             var selectAll = true;
             var display = "";
-            multiSelectOptions.find("input:checkbox").not(".selectAll, .optGroup").each(function () {
+            $options.find("input:checkbox").not(".selectAll, .optGroup").each(function () {
                 if ($(this).is(":checked")) {
                     i += 1;
                     display = display + $(this).parent().text().trim() + ", ";
@@ -132,11 +131,11 @@ if (jQuery) {
             display = display.replace(/\s*,\s*$/, "");
 
             if (i === 0) {
-                multiSelect.find("span.selection").html(o.noneSelected);
+                $select.find("span.selection").html(o.noneSelected);
             } else {
                 if (o.oneOrMoreSelected === "*" || o.autoListSelected) {
                     selection.html(display);
-                    multiSelect.attr("title", display);
+                    $select.attr("title", display);
                     if (o.autoListSelected) {
                         if (checkOverflow(selection[0])) {
                             selection.html(o.oneOrMoreSelected.replace("%", i));
@@ -149,7 +148,7 @@ if (jQuery) {
 
             // Determine if Select All should be checked
             if (o.selectAll) {
-                multiSelectOptions.find("input.selectAll")
+                $options.find("input.selectAll")
                     .prop("checked", selectAll)
                     .parent()
                     .toggleClass("checked", selectAll);
@@ -226,18 +225,18 @@ if (jQuery) {
         function buildOptions(options) {
             inc += 1;
             var uid = "selectAll_" + inc;
-            var ultraSelect = $(this);
-            var multiSelect = ultraSelect.children(".select");
-            var multiSelectOptions = ultraSelect.children(".options");
+            var $ultraSelect = $(this);
+            var $select = $ultraSelect.children(".select");
+            var $options = $ultraSelect.children(".options");
             var o = this.data("config");
             var callback = this.data("callback");
 
             // clear the existing options
-            multiSelectOptions.html("");
+            $options.html("");
 
             // if we should have a select all option then add it
             if (o.selectAll) {
-                multiSelectOptions.append(
+                $options.append(
                     $("<div />", {class: "selectAll"}).append(
                         $("<input />", {type: "checkbox", class: "selectAll", id: uid, tabindex: -1}),
                         $("<label />", {for: uid}).append("<span><span></span></span>", o.selectAllText)
@@ -246,27 +245,27 @@ if (jQuery) {
             }
 
             // generate the elements for the new options
-            multiSelectOptions.append(createOptions(this.attr("id"), options, o));
+            $options.append(createOptions(this.attr("id"), options, o));
 
             // set the height of the dropdown options
-            if (multiSelectOptions.height() > o.listHeight) {
-                multiSelectOptions.css("height", o.listHeight + "px");
+            if ($options.height() > o.listHeight) {
+                $options.css("height", o.listHeight + "px");
 
                 // add padding in firefox to compensate for the scrollbar issue
                 if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1) {
-                    multiSelectOptions.addClass("_firefox");
+                    $options.addClass("_firefox");
                 }
             } else {
-                multiSelectOptions.css("height", "");
+                $options.css("height", "");
             }
 
             //
 
             // Handle selectAll oncheck
             if (o.selectAll) {
-                multiSelectOptions.find("input.selectAll").click(function () {
+                $options.find("input.selectAll").click(function () {
                     // update all the child checkboxes
-                    multiSelectOptions.find("input:checkbox")
+                    $options.find("input:checkbox")
                         .prop("checked", $(this).is(":checked"))
                         .parent()
                         .toggleClass("checked", $(this).is(":checked"));
@@ -275,9 +274,9 @@ if (jQuery) {
 
             // Handle OptGroup oncheck
             if (o.optGroupSelectable) {
-                multiSelectOptions.addClass("optGroupHasCheckboxes");
+                $options.addClass("optGroupHasCheckboxes");
 
-                multiSelectOptions.find("input.optGroup").click(function () {
+                $options.find("input.optGroup").click(function () {
                     // update all the child checkboxes
                     $(this).parent()
                         .parent()
@@ -289,15 +288,15 @@ if (jQuery) {
             }
 
             // Handle all checkboxes
-            multiSelectOptions.find("input:checkbox").click(function () {
+            $options.find("input:checkbox").click(function () {
                 // set the label checked class
                 $(this).parent().toggleClass("checked", $(this).is(":checked"));
 
-                updateSelected.call(ultraSelect);
-                multiSelect.focus();
+                updateSelected.call($ultraSelect);
+                $select.focus();
 
                 if ($(this).parent().parent().hasClass("optGroup")) {
-                    updateOptGroup.call(ultraSelect, $(this).parent().parent());
+                    updateOptGroup.call($ultraSelect, $(this).parent().parent());
                 }
                 if (callback) {
                     callback($(this));
@@ -305,25 +304,25 @@ if (jQuery) {
             });
 
             // Initial display
-            multiSelectOptions.each(function () {
+            $options.each(function () {
                 $(this).find("input:checked").parent().addClass("checked");
             });
 
             // Initialize selected and select all
-            updateSelected.call(ultraSelect);
+            updateSelected.call($ultraSelect);
 
             // Initialize optgroups
             if (o.optGroupSelectable) {
-                multiSelectOptions.find("div.optGroup").each(function () {
-                    updateOptGroup.call(ultraSelect, $(this));
+                $options.find("div.optGroup").each(function () {
+                    updateOptGroup.call($ultraSelect, $(this));
                 });
             }
 
             // Enable checkbox row styling
-            multiSelectOptions.find("input:checkbox").parent().addClass("hasInput");
+            $options.find("input:checkbox").parent().addClass("hasInput");
 
             // Handle hovers
-            multiSelectOptions.find(".hasInput").hover(function () {
+            $options.find(".hasInput").hover(function () {
                 $(this).parent().find().removeClass("hover");
                 $(this).addClass("hover");
             }, function () {
@@ -331,12 +330,12 @@ if (jQuery) {
             });
 
             // Keyboard
-            multiSelect.keydown(function (e) {
+            $select.keydown(function (e) {
 
-                multiSelectOptions = $(this).next(".options");
+                $options = $(this).next(".options");
 
                 // Is dropdown visible?
-                if (ultraSelect.parent().css("overflow") !== "hidden") {
+                if ($ultraSelect.parent().css("overflow") !== "hidden") {
                     // Dropdown is visible
                     // Tab
                     if (e.keyCode === 9) {
@@ -352,14 +351,14 @@ if (jQuery) {
                     }
                     // Down || Up
                     if (e.keyCode === 40 || e.keyCode === 38) {
-                        var allOptions = multiSelectOptions.find(".hasInput");
+                        var allOptions = $options.find(".hasInput");
                         var oldHoverIndex = allOptions.index(allOptions.filter(".hover"));
                         var newHoverIndex = -1;
 
                         // if there is no current highlighted item then highlight the first item
                         if (oldHoverIndex < 0) {
                             // Default to first item
-                            multiSelectOptions.find(".hasInput:first").addClass("hover");
+                            $options.find(".hasInput:first").addClass("hover");
                         } else if (e.keyCode === 40 && oldHoverIndex < allOptions.length - 1) {
                             // else if we are moving down and there is a next item then move
                             newHoverIndex = oldHoverIndex + 1;
@@ -373,7 +372,7 @@ if (jQuery) {
                             $(allOptions.get(newHoverIndex)).addClass("hover"); // add the new highlight
 
                             // Adjust the viewport if necessary
-                            adjustViewPort(multiSelectOptions);
+                            adjustViewPort($options);
                         }
 
                         return false;
@@ -381,7 +380,7 @@ if (jQuery) {
 
                     // Enter, Space
                     if (e.keyCode === 13 || e.keyCode === 32) {
-                        var selectedCheckbox = multiSelectOptions.find("div.hover input:checkbox");
+                        var selectedCheckbox = $options.find("div.hover input:checkbox");
 
                         // Set the checkbox (and label class)
                         selectedCheckbox.prop("checked", !selectedCheckbox.is(":checked"))
@@ -390,14 +389,14 @@ if (jQuery) {
 
                         // if the checkbox was the select all then set all the checkboxes
                         if (selectedCheckbox.hasClass("selectAll")) {
-                            multiSelectOptions.find("input:checkbox")
+                            $options.find("input:checkbox")
                                 .prop("checked", selectedCheckbox.is(":checked"))
                                 .parent()
                                 .addClass("checked")
                                 .toggleClass("checked", selectedCheckbox.is(":checked"));
                         }
 
-                        updateSelected.call(ultraSelect);
+                        updateSelected.call($ultraSelect);
 
                         if (callback) {
                             callback($(this));
@@ -409,7 +408,7 @@ if (jQuery) {
                     // Any other standard keyboard character (try and match the first character of an option)
                     if (e.keyCode >= 33 && e.keyCode <= 126) {
                         // find the next matching item after the current hovered item
-                        var match = multiSelectOptions.find(".hasInput:startsWith(" + String.fromCharCode(e.keyCode) + ")");
+                        var match = $options.find(".hasInput:startsWith(" + String.fromCharCode(e.keyCode) + ")");
 
                         var currentHoverIndex = match.index(match.filter(".hasInput.hover"));
 
@@ -426,10 +425,10 @@ if (jQuery) {
 
                         if (match.length === 1) {
                             // if we found a match then move the hover
-                            multiSelectOptions.find(".hasInput.hover").removeClass("hover");
+                            $options.find(".hasInput.hover").removeClass("hover");
                             match.addClass("hover");
 
-                            adjustViewPort(multiSelectOptions);
+                            adjustViewPort($options);
                         }
                     }
                 } else {
@@ -437,13 +436,13 @@ if (jQuery) {
                     if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13 || e.keyCode === 32) { //up, down, enter, space - show
                         // Show dropdown
                         $(this).removeClass("focus").trigger("click");
-                        multiSelectOptions.find(".hasInput:first").addClass("hover");
+                        $options.find(".hasInput:first").addClass("hover");
                         return false;
                     }
                     //  Tab key
                     if (e.keyCode === 9) {
                         // Shift focus to next input element on page
-                        //multiSelectOptions.find(":input:first").focus();
+                        //$options.find(":input:first").focus();
                         return true;
                     }
                 }
@@ -474,33 +473,33 @@ if (jQuery) {
                         : conf.maxWidth;
 
                     // build the component
-                    var ultraSelect = $("<div />", {class: "ultraselect"});
-                    var multiSelect = $("<div />", {class: "select", tabIndex: 0});
-                    var multiSelectOptions = $("<div />", {class: "options", tabIndex: -1});
+                    var $ultraSelect = $("<div />", {class: "ultraselect"});
+                    var $select = $("<div />", {class: "select", tabIndex: 0});
+                    var $options = $("<div />", {class: "options", tabIndex: -1});
 
-                    multiSelect.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
-                    ultraSelect.append(multiSelect, multiSelectOptions);
+                    $select.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
+                    $ultraSelect.append($select, $options);
 
                     // insert new element into DOM
-                    select.after(ultraSelect);
+                    select.after($ultraSelect);
 
                     // transfer classes and data attributes from the original select element
-                    ultraSelect.addClass(select.attr("class"));
-                    ultraSelect.data(select.data());
+                    $ultraSelect.addClass(select.attr("class"));
+                    $ultraSelect.data(select.data());
 
                     // if the select object had a width defined then match the new element to it
-                    //multiSelect.find("span.selection").css("width", $(select).width() + "px");
+                    //$select.find("span.selection").css("width", $(select).width() + "px");
 
                     // apply max width
                     if (conf.maxWidth) {
-                        multiSelect.css("maxWidth", conf.maxWidth);
+                        $select.css("maxWidth", conf.maxWidth);
                     }
 
                     // Attach the config options to the multiselect
-                    ultraSelect.data("config", conf);
+                    $ultraSelect.data("config", conf);
 
                     // Attach the callback to the multiselect
-                    ultraSelect.data("callback", callback);
+                    $ultraSelect.data("callback", callback);
 
                     // Serialize the select options into json options
                     var options = [];
@@ -542,26 +541,26 @@ if (jQuery) {
                     select.remove();
 
                     // Add the id that was on the original select element to the new input
-                    ultraSelect.attr("id", select.attr("id"));
+                    $ultraSelect.attr("id", select.attr("id"));
 
                     // Build the dropdown options
-                    buildOptions.call(ultraSelect, options);
+                    buildOptions.call($ultraSelect, options);
 
                     // Set dimensions
-                    ultraSelect.wrap("<div class=\"ultraselectWrapper\"></div>");
-                    ultraSelect.parent().height(multiSelect.outerHeight());
+                    $ultraSelect.wrap("<div class=\"ultraselectWrapper\"></div>");
+                    $ultraSelect.parent().height($select.outerHeight());
 
                     // Events
-                    multiSelect.hover(function () {
+                    $select.hover(function () {
                         $(this).addClass("hover");
                     }, function () {
                         $(this).removeClass("hover");
                     }).click(function () {
                         // Show/hide on click
                         if ($(this).hasClass("active")) {
-                            $.ultraselect.hideOptions(ultraSelect);
+                            $.ultraselect.hideOptions($ultraSelect);
                         } else {
-                            $.ultraselect.showOptions(ultraSelect);
+                            $.ultraselect.showOptions($ultraSelect);
                         }
                         return false;
                     }).focus(function () {
@@ -576,7 +575,7 @@ if (jQuery) {
                     $(document).click(function (event) {
                         // If somewhere outside of the multiselect was clicked then hide the multiselect
                         if (!($(event.target).parents().addBack().is(".ultraselect > .options"))) {
-                            $.ultraselect.hideOptions(ultraSelect);
+                            $.ultraselect.hideOptions($ultraSelect);
                         }
                     });
                 });
@@ -595,8 +594,8 @@ if (jQuery) {
 
             // Show the dropdown
             showOptions: function (src) {
-                var select = src.children(".select");
-                var options = src.children(".options");
+                var $select = src.children(".select");
+                var $options = src.children(".options");
                 //var o = select.data("config"); // flagged as unused by jslint
 
                 // Hide any open option boxes
@@ -604,11 +603,11 @@ if (jQuery) {
 
                 // Show options
                 src.parent().css("overflow", "visible");
-                options.find(".option, .optGroup").removeClass("hover");
-                select.addClass("active").focus();
+                $options.find(".option, .optGroup").removeClass("hover");
+                $select.addClass("active").focus();
 
                 // reset the scroll to the top
-                options.scrollTop(0);
+                $options.scrollTop(0);
 
                 // Position it
                 /*var offset = select.position();
