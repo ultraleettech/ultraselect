@@ -453,80 +453,78 @@ if (jQuery) {
             });
         }
 
-        $.ultraselect = {
+        // Plugin constructor
+        function UltraSelect(element, options, callback) {
+            this.element = element;
+            this.options = $.extend(true, {}, defaults, options);
+            this.callback = callback;
+            this.init();
+        }
+
+        // Expose API as plugin prototype methods
+        $.extend(UltraSelect.prototype, {
 
             version: "2.0.0-dev",
             defaults: defaults,
 
-            init: function (src, o, callback) {
-                // Merge defaults with options
-                o = $.extend(true, {}, defaults, o || {});
+            // Special initialization method that should only be called from the constructor
+            init: function () {
+                var conf = this.options;
+                var select = $(this.element);
 
-                // Initialize each select
-                src.each(function () {
-                    var select = $(this);
+                // extend config based on current element
+                conf.maxWidth = select.css("maxWidth") !== "none"
+                    ? select.css("maxWidth")
+                    : conf.maxWidth;
 
-                    // extend config based on current element
-                    var conf = $.extend(true, {}, o);
-                    conf.maxWidth = select.css("maxWidth") !== "none"
-                        ? select.css("maxWidth")
-                        : conf.maxWidth;
+                // build the component
+                var $ultraSelect = $("<div />", {class: "ultraselect"});
+                var $select = $("<div />", {class: "select", tabIndex: 0});
+                var $options = $("<div />", {class: "options", tabIndex: -1});
 
-                    // build the component
-                    var $ultraSelect = $("<div />", {class: "ultraselect"});
-                    var $select = $("<div />", {class: "select", tabIndex: 0});
-                    var $options = $("<div />", {class: "options", tabIndex: -1});
+                $select.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
+                $ultraSelect.append($select, $options);
 
-                    $select.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
-                    $ultraSelect.append($select, $options);
+                // insert new element into DOM
+                select.after($ultraSelect);
 
-                    // insert new element into DOM
-                    select.after($ultraSelect);
+                // if the select object had a width defined then match the new element to it
+                //$select.find("span.selection").css("width", $(select).width() + "px");
 
-                    // transfer classes and data attributes from the original select element
-                    $ultraSelect.addClass(select.attr("class"));
-                    $ultraSelect.data(select.data());
+                // apply max width
+                if (conf.maxWidth) {
+                    $select.css("maxWidth", conf.maxWidth);
+                }
 
-                    // if the select object had a width defined then match the new element to it
-                    //$select.find("span.selection").css("width", $(select).width() + "px");
+                // transfer classes and data attributes from the original select element
+                $ultraSelect.addClass(select.attr("class"));
+                $ultraSelect.data(select.data());
 
-                    // apply max width
-                    if (conf.maxWidth) {
-                        $select.css("maxWidth", conf.maxWidth);
-                    }
+                // save references between element and object
+                this.element = $ultraSelect[0];
+                $ultraSelect.data("ultraselect", this);
 
-                    // Attach the config options to the multiselect
-                    $ultraSelect.data("config", conf);
+                // Attach the config options to the multiselect
+                $ultraSelect.data("config", conf);
 
-                    // Attach the callback to the multiselect
-                    $ultraSelect.data("callback", callback);
+                // Attach the callback to the multiselect
+                $ultraSelect.data("callback", this.callback);
 
-                    // Serialize the select options into json options
-                    var options = [];
-                    select.children().each(function () {
-                        if (this.tagName.toUpperCase() === "OPTGROUP") {
-                            var suboptions = [];
-                            options.push({
-                                optgroup: $(this).attr("label"),
-                                options: suboptions,
-                                classes: $(this).attr("class"),
-                                data: $(this).data() || {}
-                            });
+                // Serialize the select options into json options
+                var options = [];
+                select.children().each(function () {
+                    if (this.tagName.toUpperCase() === "OPTGROUP") {
+                        var suboptions = [];
+                        options.push({
+                            optgroup: $(this).attr("label"),
+                            options: suboptions,
+                            classes: $(this).attr("class"),
+                            data: $(this).data() || {}
+                        });
 
-                            $(this).children("OPTION").each(function () {
-                                if ($(this).val() !== "") {
-                                    suboptions.push({
-                                        text: $(this).html(),
-                                        value: $(this).val(),
-                                        selected: $(this).prop("selected"),
-                                        classes: $(this).attr("class"),
-                                        data: $(this).data() || {}
-                                    });
-                                }
-                            });
-                        } else if (this.tagName.toUpperCase() === "OPTION") {
+                        $(this).children("OPTION").each(function () {
                             if ($(this).val() !== "") {
-                                options.push({
+                                suboptions.push({
                                     text: $(this).html(),
                                     value: $(this).val(),
                                     selected: $(this).prop("selected"),
@@ -534,99 +532,101 @@ if (jQuery) {
                                     data: $(this).data() || {}
                                 });
                             }
+                        });
+                    } else if (this.tagName.toUpperCase() === "OPTION") {
+                        if ($(this).val() !== "") {
+                            options.push({
+                                text: $(this).html(),
+                                value: $(this).val(),
+                                selected: $(this).prop("selected"),
+                                classes: $(this).attr("class"),
+                                data: $(this).data() || {}
+                            });
                         }
-                    });
+                    }
+                });
 
-                    // Eliminate the original form element
-                    select.remove();
+                // Eliminate the original form element
+                select.remove();
 
-                    // Add the id that was on the original select element to the new input
-                    $ultraSelect.attr("id", select.attr("id"));
+                // Add the id that was on the original select element to the new input
+                $ultraSelect.attr("id", select.attr("id"));
 
-                    // Build the dropdown options
-                    buildOptions.call($ultraSelect, options);
+                // Build the dropdown options
+                buildOptions.call($ultraSelect, options);
 
-                    // Set dimensions
-                    $ultraSelect.wrap("<div class=\"ultraselectWrapper\"></div>");
-                    $ultraSelect.parent().height($select.outerHeight());
+                // Set dimensions
+                $ultraSelect.wrap("<div class=\"ultraselectWrapper\"></div>");
+                $ultraSelect.parent().height($select.outerHeight());
 
-                    // Events
-                    $select.hover(function () {
-                        $(this).addClass("hover");
-                    }, function () {
-                        $(this).removeClass("hover");
-                    }).click(function () {
-                        // Show/hide on click
-                        if ($(this).hasClass("active")) {
-                            $.ultraselect.hideOptions($ultraSelect);
-                        } else {
-                            $.ultraselect.showOptions($ultraSelect);
-                        }
-                        return false;
-                    }).focus(function () {
-                        // So it can be styled with CSS
-                        $(this).addClass("focus");
-                    }).blur(function () {
-                        // So it can be styled with CSS
-                        $(this).removeClass("focus");
-                    });
+                // Events
+                $select.hover(function () {
+                    $(this).addClass("hover");
+                }, function () {
+                    $(this).removeClass("hover");
+                }).click(function () {
+                    // Show/hide on click
+                    if ($(this).hasClass("active")) {
+                        $ultraSelect.ultraselect("hideOptions");
+                    } else {
+                        $ultraSelect.ultraselect("showOptions");
+                    }
+                    return false;
+                }).focus(function () {
+                    // So it can be styled with CSS
+                    $(this).addClass("focus");
+                }).blur(function () {
+                    // So it can be styled with CSS
+                    $(this).removeClass("focus");
+                });
 
-                    // Add an event listener to the window to close the multiselect if the user clicks off
-                    $(document).click(function (event) {
-                        // If somewhere outside of the multiselect was clicked then hide the multiselect
-                        if (!($(event.target).parents().addBack().is(".ultraselect > .options"))) {
-                            $.ultraselect.hideOptions($ultraSelect);
-                        }
-                    });
+                // Add an event listener to the window to close the multiselect if the user clicks off
+                $(document).click(function (event) {
+                    // If somewhere outside of the multiselect was clicked then hide the multiselect
+                    if (!($(event.target).parents().addBack().is(".ultraselect > .options"))) {
+                        $ultraSelect.ultraselect("hideOptions");
+                    }
                 });
             },
 
             // Update the dropdown options
-            updateOptions: function (src, options) {
-                buildOptions.call(src, options);
+            updateOptions: function (options) {
+                buildOptions.call(this, options);
             },
 
             // Hide the dropdown
-            hideOptions: function (src) {
-                src.children(".select").removeClass("active").removeClass("hover");
-                src.parent().css("overflow", "hidden");
+            hideOptions: function () {
+                this.children(".select").removeClass("active").removeClass("hover");
+                this.parent().css("overflow", "hidden");
             },
 
             // Show the dropdown
-            showOptions: function (src) {
-                var $select = src.children(".select");
-                var $options = src.children(".options");
-                //var o = select.data("config"); // flagged as unused by jslint
+            showOptions: function () {
+                var $select = this.children(".select");
+                var $options = this.children(".options");
 
                 // Hide any open option boxes
-                $.ultraselect.hideOptions($(".ultraselect"));
+                $(".ultraselect").ultraselect("hideOptions");
 
                 // Show options
-                src.parent().css("overflow", "visible");
+                this.parent().css("overflow", "visible");
                 $options.find(".option, .optGroup").removeClass("hover");
                 $select.addClass("active").focus();
 
                 // reset the scroll to the top
                 $options.scrollTop(0);
-
-                // Position it
-                /*var offset = select.position();
-                options.css({
-                    top: offset.top + src.outerHeight() + "px",
-                    left: offset.left + "px"
-                });*/
             },
 
             // get a comma-delimited list of selected values
-            selectedString: function (src) {
+            selectedString: function () {
                 var selectedValues = "";
-                src.find("input:checkbox:checked").not(".optGroup, .selectAll").each(function () {
+                this.find("input:checkbox:checked").not(".optGroup, .selectAll").each(function () {
                     selectedValues += $(this).attr("value") + ",";
                 });
                 // trim any end comma and surounding whitespace
                 return selectedValues.replace(/\s*,\s*$/, "");
             }
-        };
+        });
 
         // add a new ":startsWith" search filter
         $.expr[":"].startsWith = function (el, ignore, m) {
@@ -639,9 +639,18 @@ if (jQuery) {
 
         // Actual jQuery plugin definition
         $.fn.ultraselect = function (options, callback) {
-            $.ultraselect.init(this, options, callback);
-
-            return this;
+            return this.each(function () {
+                if (!$(this).data("ultraselect")) {
+                    // Initialize
+                    new UltraSelect(this, options, callback);
+                } else if (typeof options === "string" && typeof UltraSelect.prototype[options] === "function") {
+                    // Call plugin method
+                    $(this).data("ultraselect")[options].apply($(this), Array.prototype.slice.call(arguments, 1));
+                } else {
+                    // Error
+                    console.log("ultraselect: invalid arguments");
+                }
+            });
         };
 
     }(jQuery));
