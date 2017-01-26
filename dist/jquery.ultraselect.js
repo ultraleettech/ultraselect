@@ -92,7 +92,7 @@ if (jQuery) {
 
         // Update the optgroup checked status
         function updateOptGroup(optGroup) {
-            var o = this.data("config");
+            var o = this.data("ultraselect").options;
 
             // Determine if the optgroup should be checked
             if (o.optGroupSelectable) {
@@ -116,7 +116,7 @@ if (jQuery) {
             var $select = this.children(".select");
             var $options = this.children(".options");
             var selection = $select.find("span.selection");
-            var o = this.data("config");
+            var o = this.data("ultraselect").options;
 
             var i = 0;
             var selectAll = true;
@@ -236,8 +236,8 @@ if (jQuery) {
             var $ultraSelect = $(this);
             var $select = $ultraSelect.children(".select");
             var $options = $ultraSelect.children(".options");
-            var o = this.data("config");
-            var callback = this.data("callback");
+            var o = this.data("ultraselect").options;
+            var callback = this.data("ultraselect").callback;
 
             // clear the existing options
             $options.html("");
@@ -515,16 +515,10 @@ if (jQuery) {
                 this.element = $ultraSelect[0];
                 $ultraSelect.data("ultraselect", this);
 
-                // Attach the config options to the multiselect
-                $ultraSelect.data("config", conf);
-
-                // Attach the callback to the multiselect
-                $ultraSelect.data("callback", this.callback);
-
                 // Serialize the select options into json options
                 var options = [];
                 select.children().each(function () {
-                    if (this.tagName.toUpperCase() === "optgroup") {
+                    if (this.tagName.toLowerCase() === "optgroup") {
                         var suboptions = [];
                         options.push({
                             optgroup: $(this).attr("label"),
