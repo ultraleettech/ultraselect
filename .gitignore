@@ -2,6 +2,8 @@
 # Development Tools
 # =========================
 node_modules
+*.log
+*.log.*
 
 # =========================
 # Operating System Files

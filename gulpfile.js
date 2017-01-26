@@ -4,13 +4,24 @@ const gulp = require("gulp");
 const sass = require("gulp-sass");
 const rename = require("gulp-rename");
 const autoprefixer = require("gulp-autoprefixer");
-const eslint = require('gulp-eslint');
+const eslint = require("gulp-eslint");
+const uglify = require("gulp-uglify");
+const cssnano = require("gulp-cssnano");
 
-gulp.task('lint', () => {
-    return gulp.src(['dist/*.js'])
+gulp.task("lint", function () {
+    return gulp.src(["src/js/*.js"])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
+});
+
+gulp.task("js", ["lint"], function () {
+    return gulp.src(["src/js/ultraselect.js"])
+        .pipe(rename("jquery.ultraselect.js"))
+        .pipe(gulp.dest("dist"))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(uglify())
+        .pipe(gulp.dest("dist"));
 });
 
 gulp.task("sass", function () {
@@ -21,13 +32,19 @@ gulp.task("sass", function () {
             cascade: false
         }))
         .pipe(rename("jquery.ultraselect.css"))
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest("dist"))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(cssnano())
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task("watch", function () {
-    setTimeout(function () {
-        gulp.watch("src/scss/*.scss", ["sass"])
-    }, 300);
+    gulp.watch("src/scss/*.scss", setTimeout(function () {
+        gulp.start("sass");
+    }, 300));
+    gulp.watch("src/js/*.js", setTimeout(function () {
+        gulp.start("js");
+    }, 300));
 });
 
-gulp.task("default", ["sass"]);
+gulp.task("default", ["sass", "js"]);
