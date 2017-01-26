@@ -39,12 +39,16 @@ gulp.task("sass", function () {
 });
 
 gulp.task("watch", function () {
-    gulp.watch("src/scss/*.scss", setTimeout(function () {
-        gulp.start("sass");
-    }, 300));
-    gulp.watch("src/js/*.js", setTimeout(function () {
-        gulp.start("js");
-    }, 300));
+    gulp.watch("src/scss/*.scss", function() {
+        setTimeout(function() {
+            gulp.start("sass");
+        }, 300);
+    });
+    gulp.watch("src/js/*.js", function() {
+        setTimeout(function() {
+            gulp.start("js");
+        }, 300);
+    });
 });
 
 gulp.task("default", ["sass", "js"]);

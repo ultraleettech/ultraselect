@@ -1,25 +1,31 @@
 /*
-// jQuery ultraselect plugin
-//
-// Version 2.0.0-dev
-//
-// Cory S.N. LaViska
-// A Beautiful Site (http://abeautifulsite.net/)
-// 09 September 2009
-//
-// (Amended by Andy Richmond, Letters & Science Deans' Office, University of California, Davis)
-// (Additionally, amended by Rene Aavik, Ultraleet Technologies)
-//
-// See README.md for installation and usage instructions
-//
-// Licensing & Terms of Use
-//
-// This plugin is dual-licensed under the GNU General Public License and the MIT License and
-// is copyright 2008 A Beautiful Site, LLC.
-//
-*/
+ *
+ * Ultraselect jQuery plugin
+ *
+ * Version 2.0.0-dev
+ *
+ * Rene Aavik
+ * Ultraleet Technologies
+ * GitHub: https://github.com/ultraleettech/ultraselect
+ *
+ * Based off of jquery-multiselect by:
+ * Cory S.N. LaViska
+ * A Beautiful Site (http://abeautifulsite.net/)
+ * 09 September 2009
+ *
+ * (Amended by Andy Richmond, Letters & Science Deans' Office, University of California, Davis)
+ * (Additionally, amended by Rene Aavik, Ultraleet Technologies)
+ *
+ * See README.md for installation and usage instructions
+ *
+ * Licensing & Terms of Use
+ *
+ * This plugin is dual-licensed under the GNU General Public License and the MIT License and
+ * is copyright 2017 Ultraleet Technologies and 2008 A Beautiful Site, LLC.
+ *
+ */
 
-/* JSLINT NOTATIONS */
+/* LINT NOTATIONS */
 /*global
     jQuery console document navigator
 */
@@ -90,13 +96,11 @@ if (jQuery) {
 
             // Determine if the optgroup should be checked
             if (o.optGroupSelectable) {
-                //var $select = this.children(".select");
                 var optGroupSelected = true;
 
                 $(optGroup).children(":not(.optGroupLabel)").find("input:checkbox").each(function () {
                     if (!$(this).is(":checked")) {
                         optGroupSelected = false;
-                        //return false;
                     }
                 });
 
@@ -444,7 +448,6 @@ if (jQuery) {
                     //  Tab key
                     if (e.keyCode === 9) {
                         // Shift focus to next input element on page
-                        //$options.find(":input:first").focus();
                         return true;
                     }
                 }
@@ -521,7 +524,7 @@ if (jQuery) {
                 // Serialize the select options into json options
                 var options = [];
                 select.children().each(function () {
-                    if (this.tagName.toUpperCase() === "OPTGROUP") {
+                    if (this.tagName.toUpperCase() === "optgroup") {
                         var suboptions = [];
                         options.push({
                             optgroup: $(this).attr("label"),
@@ -530,7 +533,7 @@ if (jQuery) {
                             data: $(this).data() || {}
                         });
 
-                        $(this).children("OPTION").each(function () {
+                        $(this).children("option").each(function () {
                             if ($(this).val() !== "") {
                                 suboptions.push({
                                     text: $(this).html(),
@@ -541,7 +544,7 @@ if (jQuery) {
                                 });
                             }
                         });
-                    } else if (this.tagName.toUpperCase() === "OPTION") {
+                    } else if (this.tagName.toLowerCase() === "option") {
                         if ($(this).val() !== "") {
                             options.push({
                                 text: $(this).html(),
