@@ -21,7 +21,7 @@
 
 /* JSLINT NOTATIONS */
 /*global
-    jQuery console
+    jQuery console document navigator
 */
 
 if (jQuery) {
@@ -52,8 +52,7 @@ if (jQuery) {
             maxWidth: false
         };
 
-        // Determines if the passed element is overflowing its bounds,
-        // either vertically or horizontally.
+        // Determines if the passed element is overflowing its bounds.
         // Will temporarily modify the "overflow" style to detect this
         // if necessary.
         function checkOverflow(el) {
@@ -204,7 +203,12 @@ if (jQuery) {
                         inc += 1;
                         uid = id + "_" + inc;
 
-                        el.append($("<input />", {type: "checkbox", class: "optGroup", id: uid, tabindex: -1}));
+                        el.append($("<input />", {
+                            type: "checkbox",
+                            class: "optGroup",
+                            id: uid,
+                            tabindex: -1
+                        }));
                         label.attr("for", uid).append("<span><span></span></span>");
                     }
 
@@ -238,7 +242,12 @@ if (jQuery) {
             if (o.selectAll) {
                 $options.append(
                     $("<div />", {class: "selectAll"}).append(
-                        $("<input />", {type: "checkbox", class: "selectAll", id: uid, tabindex: -1}),
+                        $("<input />", {
+                            type: "checkbox",
+                            class: "selectAll",
+                            id: uid,
+                            tabindex: -1
+                        }),
                         $("<label />", {for: uid}).append("<span><span></span></span>", o.selectAllText)
                     )
                 );
@@ -328,7 +337,8 @@ if (jQuery) {
                     // Dropdown is visible
                     // Tab
                     if (e.keyCode === 9) {
-                        $(this).addClass("focus").trigger("click"); // esc, left, right - hide
+                        // esc, left, right - hide
+                        $(this).addClass("focus").trigger("click");
                         //$(this).focus().next().focus();
                         return true;
                     }
@@ -357,8 +367,11 @@ if (jQuery) {
                         }
 
                         if (newHoverIndex >= 0) {
-                            $(allOptions.get(oldHoverIndex)).removeClass("hover"); // remove the current highlight
-                            $(allOptions.get(newHoverIndex)).addClass("hover"); // add the new highlight
+                            // remove the current highlight
+                            $(allOptions.get(oldHoverIndex)).removeClass("hover");
+
+                            // add the new highlight
+                            $(allOptions.get(newHoverIndex)).addClass("hover");
 
                             // Adjust the viewport if necessary
                             adjustViewPort($options);
@@ -422,8 +435,8 @@ if (jQuery) {
                     }
                 } else {
                     // Dropdown is not visible
-                    if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13 || e.keyCode === 32) { //up, down, enter, space - show
-                        // Show dropdown
+                    if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13 || e.keyCode === 32) {
+                        // Up, down, enter, space - show dropdown
                         $(this).removeClass("focus").trigger("click");
                         $options.find(".hasInput:first").addClass("hover");
                         return false;
@@ -468,8 +481,14 @@ if (jQuery) {
 
                 // build the component
                 var $ultraSelect = $("<div />", {class: "ultraselect"});
-                var $select = $("<div />", {class: "select", tabIndex: 0});
-                var $options = $("<div />", {class: "options", tabIndex: -1});
+                var $select = $("<div />", {
+                    class: "select",
+                    tabIndex: 0
+                });
+                var $options = $("<div />", {
+                    class: "options",
+                    tabIndex: -1
+                });
 
                 $select.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
                 $ultraSelect.append($select, $options);

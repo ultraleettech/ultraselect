@@ -4,6 +4,14 @@ const gulp = require("gulp");
 const sass = require("gulp-sass");
 const rename = require("gulp-rename");
 const autoprefixer = require("gulp-autoprefixer");
+const eslint = require('gulp-eslint');
+
+gulp.task('lint', () => {
+    return gulp.src(['dist/*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
 
 gulp.task("sass", function () {
     return gulp.src("src/scss/*.scss")
