@@ -21,7 +21,7 @@
             $(document).ready(function () {
 
                 // Default options
-                $("#control_1, #control_3, #control_4, #control_5, #control_9, #control_12").ultraselect();
+                $("#control_1, #control_2, #control_3, #control_4, #control_5, #control_9, #control_12").ultraselect();
 
                 // With callback
                 $("#control_6").ultraselect(null, function (el) {
@@ -157,6 +157,20 @@
                         <option value="option_12">Option 12</option>
                     </optgroup>
                 </select>
+            </p>
+
+            <h2>Control 2: Single select with default options</h2>
+            <p>
+                <select id="control_2" name="control_2_name">
+                    <option value="option_1">Option 1</option>
+                    <option value="option_2">Option 2</option>
+                    <option value="option_3">Option 3</option>
+                    <option value="option_4">Option 4</option>
+                    <option value="option_5">Option 5</option>
+                    <option value="option_6">Option 6</option>
+                    <option value="option_7">Option 7</option>
+                </select>
+
             </p>
 
             <h2>Control 3, 4, 5: Pre-selected options</h2>

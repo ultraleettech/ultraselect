@@ -118,70 +118,95 @@ if (jQuery) {
             var selection = $select.find("span.selection");
             var o = this.data("ultraselect").options;
 
-            var i = 0;
-            var selectAll = true;
-            var display = "";
-            $options.find("input:checkbox").not(".selectAll, .optGroup").each(function () {
-                if ($(this).is(":checked")) {
-                    i += 1;
-                    display = display + $(this).parent().text().trim() + ", ";
-                } else {
-                    selectAll = false;
-                }
-            });
-
-            // trim any end comma and surounding whitespace
-            display = display.replace(/\s*,\s*$/, "");
-
-            if (i === 0) {
-                $select.find("span.selection").html(o.noneSelected);
-            } else {
-                if (o.oneOrMoreSelected === "*" || o.autoListSelected) {
-                    selection.html(display);
-                    $select.attr("title", display);
-                    if (o.autoListSelected) {
-                        if (checkOverflow(selection[0])) {
-                            selection.html(o.oneOrMoreSelected.replace("%", i));
-                        }
+            if (o.multiple) {
+                var i = 0;
+                var selectAll = true;
+                var display = "";
+                $options.find("input:checkbox").not(".selectAll, .optGroup").each(function () {
+                    if ($(this).is(":checked")) {
+                        i += 1;
+                        display = display + $(this).parent().text().trim() + ", ";
+                    } else {
+                        selectAll = false;
                     }
-                } else {
-                    selection.html(o.oneOrMoreSelected.replace("%", i));
-                }
-            }
+                });
 
-            // Determine if Select All should be checked
-            if (o.selectAll) {
-                $options.find("input.selectAll")
-                    .prop("checked", selectAll)
-                    .parent()
-                    .toggleClass("checked", selectAll);
+                // trim any end comma and surounding whitespace
+                display = display.replace(/\s*,\s*$/, "");
+
+                if (i === 0) {
+                    $select.find("span.selection").html(o.noneSelected);
+                } else {
+                    if (o.oneOrMoreSelected === "*" || o.autoListSelected) {
+                        selection.html(display);
+                        $select.attr("title", display);
+                        if (o.autoListSelected) {
+                            if (checkOverflow(selection[0])) {
+                                selection.html(o.oneOrMoreSelected.replace("%", i));
+                            }
+                        }
+                    } else {
+                        selection.html(o.oneOrMoreSelected.replace("%", i));
+                    }
+                }
+
+                // Determine if Select All should be checked
+                if (o.selectAll) {
+                    $options.find("input.selectAll")
+                        .prop("checked", selectAll)
+                        .parent()
+                        .toggleClass("checked", selectAll);
+                }
+            } else {
+                // Update selection display
+                var value = this.children("input").val();
+
+                $options.find(".option").each(function() {
+                    if ($(this).data("value") === value) {
+                        selection.html($("label", this).text());
+
+                        return false;
+                    }
+                });
             }
         }
 
         // generate the single option element
         var inc = 0;
-        function createOption(id, option) {
+        function createOption(id, option, o) {
             inc += 1;
             var uid = id + "_" + inc;
             var $option = $("<div />", {class: "option"});
             var input = $("<input />", {
                 type: "checkbox",
-                name: id + "[]",
+                name: o.name,
                 id: uid,
                 tabindex: -1
             });
             var label = $("<label />", {for: uid});
             var spans = $("<span><span></span></span>");
 
-            input.val(option.value);
+            if (o.multiple) {
+                input.val(option.value);
 
-            if (option.selected) {
-                input.prop("checked", "checked");
+                if (option.selected) {
+                    input.prop("checked", "checked");
+                }
+
+                return $option.append(input, label.append(spans, option.text))
+                    .addClass(option.classes || "")
+                    .data(option.data);
+            } else {
+                $option.data("value", option.value);
+                if (option.selected) {
+                    $option.data("selected", "selected");
+                }
+
+                return $option
+                    .addClass("selectable")
+                    .append($("<label />")
+                    .html(option.text));
             }
-
-            return $option.append(input, label.append(spans, option.text))
-                .addClass(option.classes || "")
-                .data(option.data);
         }
 
         // generate the options/optgroups
@@ -203,7 +228,7 @@ if (jQuery) {
 
                     label = $("<label />");
 
-                    if (o.optGroupSelectable) {
+                    if (o.multiple && o.optGroupSelectable) {
                         inc += 1;
                         uid = id + "_" + inc;
 
@@ -222,7 +247,7 @@ if (jQuery) {
 
                     $options.append(el);
                 } else {
-                    $options.append(createOption(id, options[i]));
+                    $options.append(createOption(id, options[i], o));
                 }
             }
 
@@ -244,7 +269,7 @@ if (jQuery) {
             $options.html("");
 
             // if we should have a select all option then add it
-            if (o.selectAll) {
+            if (o.multiple && o.selectAll) {
                 $options.append(
                     $("<div />", {class: "selectAll"}).append(
                         $("<input />", {
@@ -264,78 +289,105 @@ if (jQuery) {
             // set the height of the dropdown options
             $ultraSelect.ultraselect("setListHeight", o.listHeight);
 
-            // Handle selectAll oncheck
-            if (o.selectAll) {
-                $options.find("input.selectAll").click(function () {
-                    // update all the child checkboxes
-                    $options.find("input:checkbox")
-                        .prop("checked", $(this).is(":checked"))
-                        .parent()
-                        .toggleClass("checked", $(this).is(":checked"));
+            if (o.multiple) {
+                // Handle selectAll oncheck
+                if (o.multiple && o.selectAll) {
+                    $options.find("input.selectAll").click(function () {
+                        // update all the child checkboxes
+                        $options.find("input:checkbox")
+                            .prop("checked", $(this).is(":checked"))
+                            .parent()
+                            .toggleClass("checked", $(this).is(":checked"));
+                    });
+                }
+
+                // Handle OptGroup oncheck
+                if (o.multiple && o.optGroupSelectable) {
+                    $options.addClass("optGroupHasCheckboxes");
+
+                    $options.find("input.optGroup").click(function () {
+                        // update all the child checkboxes
+                        $(this).parent()
+                            .parent()
+                            .find("input:not(.optGroup, .selectAll):checkbox")
+                            .prop("checked", $(this).is(":checked"))
+                            .parent()
+                            .toggleClass("checked", $(this).is(":checked"));
+                    });
+                }
+
+                // Handle all checkboxes
+                $options.find("input:checkbox").click(function () {
+                    // set the label checked class
+                    $(this).parent().toggleClass("checked", $(this).is(":checked"));
+
+                    updateSelected.call($ultraSelect);
+                    $select.focus();
+
+                    if ($(this).parent().parent().hasClass("optGroup")) {
+                        updateOptGroup.call($ultraSelect, $(this).parent().parent());
+                    }
+                    if (callback) {
+                        callback($(this));
+                    }
                 });
-            }
 
-            // Handle OptGroup oncheck
-            if (o.optGroupSelectable) {
-                $options.addClass("optGroupHasCheckboxes");
-
-                $options.find("input.optGroup").click(function () {
-                    // update all the child checkboxes
-                    $(this).parent()
-                        .parent()
-                        .find("input:not(.optGroup, .selectAll):checkbox")
-                        .prop("checked", $(this).is(":checked"))
-                        .parent()
-                        .toggleClass("checked", $(this).is(":checked"));
+                // Initial display
+                $options.each(function () {
+                    $(this).find("input:checked").parent().addClass("checked");
                 });
-            }
 
-            // Handle all checkboxes
-            $options.find("input:checkbox").click(function () {
-                // set the label checked class
-                $(this).parent().toggleClass("checked", $(this).is(":checked"));
-
+                // Initialize selected and select all
                 updateSelected.call($ultraSelect);
-                $select.focus();
 
-                if ($(this).parent().parent().hasClass("optGroup")) {
-                    updateOptGroup.call($ultraSelect, $(this).parent().parent());
+                // Initialize optgroups
+                if (o.optGroupSelectable) {
+                    $options.find("div.optGroup").each(function () {
+                        updateOptGroup.call($ultraSelect, $(this));
+                    });
                 }
-                if (callback) {
-                    callback($(this));
-                }
-            });
 
-            // Initial display
-            $options.each(function () {
-                $(this).find("input:checked").parent().addClass("checked");
-            });
+                // Enable checkbox row styling
+                $options.find("input:checkbox").parent().addClass("selectable");
 
-            // Initialize selected and select all
-            updateSelected.call($ultraSelect);
+            } else {
+                // Initialize selection
+                updateSelected.call($ultraSelect);
 
-            // Initialize optgroups
-            if (o.optGroupSelectable) {
-                $options.find("div.optGroup").each(function () {
-                    updateOptGroup.call($ultraSelect, $(this));
+                // Single select item selection
+                $(".option", $options).click(function() {
+                    // update value
+                    $("input", $ultraSelect).val($(this).data("value"));
+
+                    // close options
+                    $ultraSelect.ultraselect("hideOptions");
+
+                    // update selection
+                    updateSelected.call($ultraSelect);
+                    $select.focus();
+
+                    // fire callback
                 });
             }
-
-            // Enable checkbox row styling
-            $options.find("input:checkbox").parent().addClass("selectable");
 
             // Handle hovers
             $options.find(".selectable").hover(function () {
-                $(this).parent().find().removeClass("hover");
+                $(this).parent().find(".hover").removeClass("hover");
                 $(this).addClass("hover");
             }, function () {
-                $(this).removeClass("hover");
+                // only remove hover class for multiple select
+                if (o.multiple) {
+                    $(this).removeClass("hover");
+                }
             });
 
             // Keyboard
             $select.keydown(function (e) {
-
                 $options = $(this).next(".options");
+
+                var allOptions;
+                var oldHoverIndex;
+                var newHoverIndex;
 
                 // Is dropdown visible?
                 if ($ultraSelect.parent().css("overflow") !== "hidden") {
@@ -355,9 +407,9 @@ if (jQuery) {
                     }
                     // Down || Up
                     if (e.keyCode === 40 || e.keyCode === 38) {
-                        var allOptions = $options.find(".selectable");
-                        var oldHoverIndex = allOptions.index(allOptions.filter(".hover"));
-                        var newHoverIndex = -1;
+                        allOptions = $options.find(".selectable");
+                        oldHoverIndex = allOptions.index(allOptions.filter(".hover"));
+                        newHoverIndex = -1;
 
                         // if there is no current highlighted item then highlight the first item
                         if (oldHoverIndex < 0) {
@@ -387,6 +439,11 @@ if (jQuery) {
 
                     // Enter, Space
                     if (e.keyCode === 13 || e.keyCode === 32) {
+                        // Simply trigger the click event in case of a single select
+                        if (!o.multiple) {
+                            $(".option.hover", $options).trigger("click");
+                        }
+
                         var selectedCheckbox = $options.find("div.hover input:checkbox");
 
                         // Set the checkbox (and label class)
@@ -439,6 +496,30 @@ if (jQuery) {
                         }
                     }
                 } else {
+                    // Enable up/down navigation without showing options on single selects
+                    if (!o.multiple && (e.keyCode === 40 || e.keyCode === 38)) {
+                        allOptions = $options.find(".selectable");
+                        oldHoverIndex = allOptions.index(allOptions.filter(".hover"));
+                        newHoverIndex = oldHoverIndex;
+
+                        // if there is no current highlighted item then highlight the first item
+                        if (oldHoverIndex < 0) {
+                            newHoverIndex = 0;
+                        } else if (e.keyCode === 40 && oldHoverIndex < allOptions.length - 1) {
+                            // else if we are moving down and there is a next item then move
+                            newHoverIndex = oldHoverIndex + 1;
+                        } else if (e.keyCode === 38 && oldHoverIndex > 0) {
+                            // else if we are moving up and there is a prev item then move
+                            newHoverIndex = oldHoverIndex - 1;
+                        }
+
+                        allOptions.removeClass("hover");
+                        $(allOptions.get(newHoverIndex)).addClass("hover").trigger("click");
+
+                        return false;
+
+                    }
+
                     // Dropdown is not visible
                     if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13 || e.keyCode === 32) {
                         // Up, down, enter, space - show dropdown
@@ -469,10 +550,6 @@ if (jQuery) {
 
         // Expose API as plugin prototype methods
         $.extend(UltraSelect.prototype, {
-
-            version: "2.0.0-dev",
-            defaults: defaults,
-
             // Special initialization method that should only be called from the constructor
             init: function () {
                 var conf = this.options;
@@ -482,6 +559,9 @@ if (jQuery) {
                 conf.maxWidth = select.css("maxWidth") !== "none"
                     ? select.css("maxWidth")
                     : conf.maxWidth;
+
+                conf.multiple = select.attr("multiple");
+                conf.name = select.attr("name");
 
                 // build the component
                 var $ultraSelect = $("<div />", {class: "ultraselect"});
@@ -493,6 +573,17 @@ if (jQuery) {
                     class: "options",
                     tabIndex: -1
                 });
+
+                // for single select, add hidden input for the selected option value
+                if (!conf.multiple) {
+                    $ultraSelect.append(
+                        $("<input />", {
+                            type: "hidden",
+                            name: conf.name,
+                            value: select.val()
+                        })
+                    );
+                }
 
                 $select.append($("<span />", {class: "selection"}), $("<span />", {class: "arrow"}).append($("<b />")));
                 $ultraSelect.append($select, $options);
@@ -598,17 +689,34 @@ if (jQuery) {
             // Get selection value
             getValue: function() {
                 var selected = [];
-                $("input:not(.selectAll, .optGroup)", this.element).each(function () {
-                    if ($(this).is(":checked")) {
-                        selected.push($(this).val());
-                    }
-                });
+                if (this.options.multiple) {
+                    $("input:not(.selectAll, .optGroup)", this.element).each(function () {
+                        if ($(this).is(":checked")) {
+                            selected.push($(this).val());
+                        }
+                    });
+                } else {
+                    return $("input", this.element).val();
+                }
 
                 return selected;
             },
 
             // Set selection value
             setValue: function(value) {
+                // single select
+                if (!this.options.multiple) {
+                    var element = this.element;
+                    $("input", element).val(value);
+
+                    $(".option", this.element).removeClass("hover").each(function() {
+                        if ($(this).val() === value) {
+                            $(this).addClass("hover");
+                            $("span.selection", element).html($("label", this).text());
+                        }
+                    });
+                }
+
                 // normalize value
                 var normalized = value ? value : [];
                 if (typeof normalized === "string") {
@@ -646,6 +754,7 @@ if (jQuery) {
             showOptions: function () {
                 var $select = this.children(".select");
                 var $options = this.children(".options");
+                var o = this.data("ultraselect").options;
 
                 // Hide any open option boxes
                 $(".ultraselect").ultraselect("hideOptions");
@@ -655,8 +764,20 @@ if (jQuery) {
                 $options.find(".option, .optGroup").removeClass("hover");
                 $select.addClass("active").focus();
 
-                // reset the scroll to the top
-                $options.scrollTop(0);
+                if (o.multiple) {
+                    // reset the scroll to the top
+                    $options.scrollTop(0);
+                } else {
+                    var value = this.children("input").val();
+
+                    $options.find(".option").each(function() {
+                        if ($(this).data("value") === value) {
+                            $(this).addClass("hover");
+
+                            return false;
+                        }
+                    });
+                }
             },
 
             // Get a comma-delimited list of selected values

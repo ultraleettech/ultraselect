@@ -8,6 +8,7 @@
 - Refactored plugin API
 - Added API method setListHeight
 - Extended jQuery's .val() to work with ultraselect elements
+- Added single select functionality
 
 ## [1.3.1]
 - Fixed jQuery compatibility issues
