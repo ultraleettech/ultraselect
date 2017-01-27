@@ -7,6 +7,7 @@
 - Increased default listHeight value to 200
 - Refactored plugin API
 - Added API method setListHeight
+- Extended jQuery's .val() to work with ultraselect elements
 
 ## [1.3.1]
 - Fixed jQuery compatibility issues

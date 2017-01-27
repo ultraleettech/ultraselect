@@ -21,7 +21,7 @@
             $(document).ready(function () {
 
                 // Default options
-                $("#control_1, #control_3, #control_4, #control_5, #control_9").ultraselect();
+                $("#control_1, #control_3, #control_4, #control_5, #control_9, #control_12").ultraselect();
 
                 // With callback
                 $("#control_6").ultraselect(null, function (el) {
@@ -46,6 +46,14 @@
                     $(".optgroup-class").data("test") + " " +
                     $(".option-class").data("test")
                 );
+
+                // Get/set values with jQuery's .val()
+                $("#setValue").click(function() {
+                    $("#control_12").val(["option_1", "option_2"]);
+                });
+                $("#getValue").click(function() {
+                    $("#control_12_result").text("Value: " + JSON.stringify($("#control_12").val()));
+                });
 
                 // Init syntax highlighting
                 hljs.initHighlightingOnLoad();
@@ -299,6 +307,34 @@
                     <option value="option_7">Option 7</option>
                 </select>
 
+            </p>
+
+            <h2>Control 12: Set and get value programmatically</h2>
+            <p>
+                <select id="control_12" name="control_12[]" multiple="multiple" size="5">
+                    <optgroup label="Optgroup 1">
+                        <option value="option_1">Option 1</option>
+                        <option value="option_2">Option 2</option>
+                    </optgroup>
+                    <optgroup label="Optgroup 2">
+                        <option value="option_3">Option 3</option>
+                        <option value="option_4">Option 4</option>
+                        <option value="option_5">Option 5</option>
+                        <option value="option_6">Option 6</option>
+                        <option value="option_7">Option 7</option>
+                        <option value="option_8">Option 8</option>
+                    </optgroup>
+
+                    <optgroup label="Optgroup 3">
+                        <option value="option_9">Option 9</option>
+                        <option value="option_10">Option 10</option>
+                        <option value="option_11">Option 11</option>
+                        <option value="option_12">Option 12</option>
+                    </optgroup>
+                </select>
+                <button id="setValue">Set value to [option_1, option_2]</button>
+                <button id="getValue">Get value</button>
+                <div id="control_12_result"></div>
             </p>
 
             <p>

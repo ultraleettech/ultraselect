@@ -236,8 +236,9 @@ if (jQuery) {
             var $ultraSelect = $(this);
             var $select = $ultraSelect.children(".select");
             var $options = $ultraSelect.children(".options");
-            var o = this.data("ultraselect").options;
-            var callback = this.data("ultraselect").callback;
+            var US = this.data("ultraselect");
+            var o = US.options;
+            var callback = US.callback;
 
             // clear the existing options
             $options.html("");
@@ -594,6 +595,42 @@ if (jQuery) {
                 });
             },
 
+            // Get selection value
+            getValue: function() {
+                var selected = [];
+                $("input:not(.selectAll, .optGroup)", this.element).each(function () {
+                    if ($(this).is(":checked")) {
+                        selected.push($(this).val());
+                    }
+                });
+
+                return selected;
+            },
+
+            // Set selection value
+            setValue: function(value) {
+                // normalize value
+                var normalized = value ? value : [];
+                if (typeof normalized === "string") {
+                    normalized = [value];
+                }
+
+                // iterate over choices
+                $("input:not(.selectAll, .optGroup)", this.element).each(function () {
+                    var checked = (normalized.indexOf($(this).val()) !== -1);
+                    $(this)
+                        .prop("checked", checked)
+                        .parent()
+                        .toggleClass("checked", checked);
+                });
+
+                // update
+                updateSelected.call($(this.element));
+
+                // enable chainability
+                return this;
+            },
+
             // Update the dropdown options
             updateOptions: function (options) {
                 buildOptions.call(this, options);
@@ -655,6 +692,31 @@ if (jQuery) {
                 return false;
             }
             return new RegExp("^[/s]*" + search, "i").test($(el).text());
+        };
+
+        // Extend jQuery's .val() function
+        var $valFn = $.fn.val;
+        $.fn.val = function(value) {
+            var US;
+            if (arguments.length === 0) {
+                // we are getting the value
+                US = this.data("ultraselect");
+                if (US) {
+                    return US.getValue();
+                } else {
+                    return $valFn.call(this);
+                }
+            } else {
+                // we are setting the value
+                return this.each(function() {
+                    US = $(this).data("ultraselect");
+                    if (US) {
+                        US.setValue(value);
+                    } else {
+                        $valFn.call($(this), value);
+                    }
+                });
+            }
         };
 
         // Actual jQuery plugin definition
