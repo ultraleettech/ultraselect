@@ -8,7 +8,7 @@
     border-top: none;
     background: $backgroundColor;
 
-    .hasInput {
+    .selectable {
         padding: 0px 2px;
         display: block;
         white-space: nowrap;
@@ -31,11 +31,11 @@
         font-weight: bold;
     }
 
-    .optGroup .hasInput {
+    .optGroup .selectable {
         padding-left: 10px;
     }
 
-    &.optGroupHasCheckboxes .optGroup .hasInput {
+    &.optGroupHasCheckboxes .optGroup .selectable {
         padding-left: 18px;
 
         &.optGroupLabel {
@@ -48,8 +48,8 @@
     }
 
     // adjust options menu width in firefox where scrollbar is included in width calculation
-    // scroll bar width is 17px, add 2 to compensate for .hasInput padding
-    &._firefox .hasInput {
+    // scroll bar width is 17px, add 2 to compensate for .selectable padding
+    &._firefox .selectable {
         padding-right: 19px;
     }
 

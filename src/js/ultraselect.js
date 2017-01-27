@@ -78,15 +78,15 @@ if (jQuery) {
         // Adjust the viewport if necessary
         function adjustViewPort($options) {
             // check for and move down
-            var selectionBottom = $options.find(".hasInput.hover").position().top + $options.find(".hasInput.hover").outerHeight();
+            var selectionBottom = $options.find(".selectable.hover").position().top + $options.find(".selectable.hover").outerHeight();
 
             if (selectionBottom > $options.innerHeight()) {
                 $options.scrollTop($options.scrollTop() + selectionBottom - $options.innerHeight());
             }
 
             // check for and move up
-            if ($options.find(".hasInput.hover").position().top < 0) {
-                $options.scrollTop($options.scrollTop() + $options.find(".hasInput.hover").position().top);
+            if ($options.find(".selectable.hover").position().top < 0) {
+                $options.scrollTop($options.scrollTop() + $options.find(".selectable.hover").position().top);
             }
         }
 
@@ -322,10 +322,10 @@ if (jQuery) {
             }
 
             // Enable checkbox row styling
-            $options.find("input:checkbox").parent().addClass("hasInput");
+            $options.find("input:checkbox").parent().addClass("selectable");
 
             // Handle hovers
-            $options.find(".hasInput").hover(function () {
+            $options.find(".selectable").hover(function () {
                 $(this).parent().find().removeClass("hover");
                 $(this).addClass("hover");
             }, function () {
@@ -355,14 +355,14 @@ if (jQuery) {
                     }
                     // Down || Up
                     if (e.keyCode === 40 || e.keyCode === 38) {
-                        var allOptions = $options.find(".hasInput");
+                        var allOptions = $options.find(".selectable");
                         var oldHoverIndex = allOptions.index(allOptions.filter(".hover"));
                         var newHoverIndex = -1;
 
                         // if there is no current highlighted item then highlight the first item
                         if (oldHoverIndex < 0) {
                             // Default to first item
-                            $options.find(".hasInput:first").addClass("hover");
+                            $options.find(".selectable:first").addClass("hover");
                         } else if (e.keyCode === 40 && oldHoverIndex < allOptions.length - 1) {
                             // else if we are moving down and there is a next item then move
                             newHoverIndex = oldHoverIndex + 1;
@@ -415,9 +415,9 @@ if (jQuery) {
                     // Any other standard keyboard character (try and match the first character of an option)
                     if (e.keyCode >= 33 && e.keyCode <= 126) {
                         // find the next matching item after the current hovered item
-                        var match = $options.find(".hasInput:startsWith(" + String.fromCharCode(e.keyCode) + ")");
+                        var match = $options.find(".selectable:startsWith(" + String.fromCharCode(e.keyCode) + ")");
 
-                        var currentHoverIndex = match.index(match.filter(".hasInput.hover"));
+                        var currentHoverIndex = match.index(match.filter(".selectable.hover"));
 
                         // filter the set to any items after the current hovered item
                         var afterHoverMatch = match.filter(function (index) {
@@ -428,11 +428,11 @@ if (jQuery) {
                         match = (afterHoverMatch.length >= 1)
                             ? afterHoverMatch
                             : match;
-                        match = match.filter(".hasInput:first");
+                        match = match.filter(".selectable:first");
 
                         if (match.length === 1) {
                             // if we found a match then move the hover
-                            $options.find(".hasInput.hover").removeClass("hover");
+                            $options.find(".selectable.hover").removeClass("hover");
                             match.addClass("hover");
 
                             adjustViewPort($options);
@@ -443,7 +443,7 @@ if (jQuery) {
                     if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13 || e.keyCode === 32) {
                         // Up, down, enter, space - show dropdown
                         $(this).removeClass("focus").trigger("click");
-                        $options.find(".hasInput:first").addClass("hover");
+                        $options.find(".selectable:first").addClass("hover");
                         return false;
                     }
                     //  Tab key

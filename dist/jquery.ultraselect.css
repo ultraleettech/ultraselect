@@ -62,28 +62,28 @@
     border: solid 1px #799bd2;
     border-top: none;
     background: white; }
-    .ultraselect .options .hasInput {
+    .ultraselect .options .selectable {
       padding: 0px 2px;
       display: block;
       white-space: nowrap; }
-      .ultraselect .options .hasInput.checked {
+      .ultraselect .options .selectable.checked {
         background-color: #dce5f8; }
-      .ultraselect .options .hasInput.selectAll {
+      .ultraselect .options .selectable.selectAll {
         border-bottom: dotted 1px #cccccc; }
-      .ultraselect .options .hasInput.hover {
+      .ultraselect .options .selectable.hover {
         background-color: dodgerblue;
         color: white; }
     .ultraselect .options .optGroupLabel {
       font-weight: bold; }
-    .ultraselect .options .optGroup .hasInput {
+    .ultraselect .options .optGroup .selectable {
       padding-left: 10px; }
-    .ultraselect .options.optGroupHasCheckboxes .optGroup .hasInput {
+    .ultraselect .options.optGroupHasCheckboxes .optGroup .selectable {
       padding-left: 18px; }
-      .ultraselect .options.optGroupHasCheckboxes .optGroup .hasInput.optGroupLabel {
+      .ultraselect .options.optGroupHasCheckboxes .optGroup .selectable.optGroupLabel {
         padding-left: 0; }
     .ultraselect .options input {
       vertical-align: middle; }
-    .ultraselect .options._firefox .hasInput {
+    .ultraselect .options._firefox .selectable {
       padding-right: 19px; }
   .ultraselect input[type=checkbox]:not(old) {
     width: 2em;
