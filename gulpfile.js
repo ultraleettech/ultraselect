@@ -18,9 +18,9 @@ gulp.task("lint", function () {
 gulp.task("js", ["lint"], function () {
     return gulp.src(["src/js/ultraselect.js"])
         .pipe(rename("jquery.ultraselect.js"))
-        .pipe(gulp.dest("dist"))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(uglify())
+        //.pipe(gulp.dest("dist"))
+        //.pipe(rename({suffix: '.min'}))
+        //.pipe(uglify())
         .pipe(gulp.dest("dist"));
 });
 
@@ -32,11 +32,13 @@ gulp.task("sass", function () {
             cascade: false
         }))
         .pipe(rename("jquery.ultraselect.css"))
-        .pipe(gulp.dest("dist"))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(cssnano())
+        //.pipe(gulp.dest("dist"))
+        //.pipe(rename({suffix: '.min'}))
+        //.pipe(cssnano())
         .pipe(gulp.dest('dist'));
 });
+
+// TODO: minification as a separate task
 
 gulp.task("watch", function () {
     gulp.watch("src/scss/*.scss", function() {

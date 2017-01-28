@@ -186,6 +186,11 @@ if (jQuery) {
             var label = $("<label />", {for: uid});
             var spans = $("<span><span></span></span>");
 
+            // transfer classes & data attributes
+            $option
+                .addClass(option.classes || "")
+                .data(option.data);
+
             if (o.multiple) {
                 input.val(option.value);
 
@@ -198,6 +203,7 @@ if (jQuery) {
                     .data(option.data);
             } else {
                 $option.data("value", option.value);
+
                 if (option.selected) {
                     $option.data("selected", "selected");
                 }
