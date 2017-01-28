@@ -112,7 +112,7 @@ if (jQuery) {
         }
 
         // Update the textbox with the total number of selected items, and determine select all
-        function updateSelected() {
+        function updateSelected(change) {
             var $select = this.children(".select");
             var $options = this.children(".options");
             var selection = $select.find("span.selection");
@@ -168,6 +168,11 @@ if (jQuery) {
                         return false;
                     }
                 });
+            }
+
+            // Trigger the onChange event
+            if (change) {
+                this.trigger("change");
             }
         }
 
@@ -327,7 +332,7 @@ if (jQuery) {
                     // set the label checked class
                     $(this).parent().toggleClass("checked", $(this).is(":checked"));
 
-                    updateSelected.call($ultraSelect);
+                    updateSelected.call($ultraSelect, true);
                     $select.focus();
 
                     if ($(this).parent().parent().hasClass("optGroup")) {
@@ -344,7 +349,7 @@ if (jQuery) {
                 });
 
                 // Initialize selected and select all
-                updateSelected.call($ultraSelect);
+                updateSelected.call($ultraSelect, false);
 
                 // Initialize optgroups
                 if (o.optGroupSelectable) {
@@ -358,7 +363,7 @@ if (jQuery) {
 
             } else {
                 // Initialize selection
-                updateSelected.call($ultraSelect);
+                updateSelected.call($ultraSelect, false);
 
                 // Single select item selection
                 $(".option", $options).click(function() {
@@ -369,7 +374,7 @@ if (jQuery) {
                     $ultraSelect.ultraselect("hideOptions");
 
                     // update selection
-                    updateSelected.call($ultraSelect);
+                    updateSelected.call($ultraSelect, true);
                     $select.focus();
 
                     // fire callback
@@ -466,7 +471,7 @@ if (jQuery) {
                                 .toggleClass("checked", selectedCheckbox.is(":checked"));
                         }
 
-                        updateSelected.call($ultraSelect);
+                        updateSelected.call($ultraSelect, true);
 
                         if (callback) {
                             callback($(this));
@@ -739,7 +744,7 @@ if (jQuery) {
                 });
 
                 // update
-                updateSelected.call($(this.element));
+                updateSelected.call($(this.element, false));
 
                 // enable chainability
                 return this;
