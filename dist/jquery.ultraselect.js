@@ -814,6 +814,22 @@ if (jQuery) {
                 } else {
                     $options.css("height", "");
                 }
+            },
+
+            // Get/set option values
+            option: function (key, value, update) {
+                if (typeof value === "undefined") {
+                    // get option value
+                    return this.data("ultraselect").options[key];
+                } else {
+                    // set option value
+                    this.data("ultraselect").options[key] = value;
+
+                    // update the elements if requested
+                    if (update) {
+                        updateSelected.call(this, true);
+                    }
+                }
             }
         });
 
