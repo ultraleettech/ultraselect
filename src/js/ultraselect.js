@@ -135,7 +135,7 @@ if (jQuery) {
                 var i = 0;
                 var selectAll = true;
                 var display = "";
-                $options.find("input:checkbox").not(".selectAll, .optGroup").each(function () {
+                $options.find("input:checkbox:visible").not(".selectAll, .optGroup").each(function () {
                     if ($(this).is(":checked")) {
                         i += 1;
                         display = display + $(this).parent().text().trim() + ", ";
@@ -734,12 +734,13 @@ if (jQuery) {
 
             // Set selection value
             setValue: function(value) {
+                var element = this.element;
+
                 // single select
                 if (!this.options.multiple) {
-                    var element = this.element;
                     $("input", element).val(value);
 
-                    $(".option", this.element).removeClass("hover").each(function() {
+                    $(".option", element).removeClass("hover").each(function() {
                         if ($(this).val() === value) {
                             $(this).addClass("hover");
                             $("span.selection", element).html($("label", this).text());
@@ -754,7 +755,7 @@ if (jQuery) {
                 }
 
                 // iterate over choices
-                $("input:not(.selectAll, .optGroup)", this.element).each(function () {
+                $("input:not(.selectAll, .optGroup)", element).each(function () {
                     var checked = (normalized.indexOf($(this).val()) !== -1);
                     $(this)
                         .prop("checked", checked)
@@ -763,10 +764,15 @@ if (jQuery) {
                 });
 
                 // update
-                updateSelected.call($(this.element), false);
+                updateSelected.call($(element), false);
 
                 // enable chainability
                 return this;
+            },
+
+            // Update the display
+            update: function () {
+                updateSelected.call(this);
             },
 
             // Update the dropdown options
