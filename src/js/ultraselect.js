@@ -90,6 +90,19 @@ if (jQuery) {
             }
         }
 
+        // Recalculate the max width of the select element
+        function updateMaxWidth() {
+            var $select = this.children(".select");
+            var $options = this.children(".options");
+            var o = this.data("ultraselect").options;
+
+            if (o.maxWidth) {
+                if ($options.outerWidth() > $select.width()) {
+                    $select.css("maxWidth", $options.outerWidth() + "px");
+                }
+            }
+        }
+
         // Update the optgroup checked status
         function updateOptGroup(optGroup) {
             var o = this.data("ultraselect").options;
@@ -667,6 +680,12 @@ if (jQuery) {
                 $ultraSelect.wrap("<div class=\"ultraselectWrapper\"></div>");
                 $ultraSelect.parent().height($select.outerHeight());
 
+                // adjust max width if needed
+                updateMaxWidth.call($ultraSelect);
+                $(window).resize(function() {
+                    updateMaxWidth.call($ultraSelect);
+                });
+
                 // Events
                 $select.hover(function () {
                     $(this).addClass("hover");
@@ -744,7 +763,7 @@ if (jQuery) {
                 });
 
                 // update
-                updateSelected.call($(this.element, false));
+                updateSelected.call($(this.element), false);
 
                 // enable chainability
                 return this;

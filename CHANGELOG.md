@@ -9,6 +9,7 @@
 - Added API method setListHeight
 - Extended jQuery's .val() to work with ultraselect elements
 - Added single select functionality
+- Added API method "option"
 
 ## [1.3.1]
 - Fixed jQuery compatibility issues
