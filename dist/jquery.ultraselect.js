@@ -829,6 +829,7 @@ if (jQuery) {
             // Set maximum options height
             setListHeight: function (listHeight) {
                 var $options = this.children(".options");
+                $options.css("height", "");
                 if ($options.height() > listHeight) {
                     $options.css("height", listHeight + "px");
 
